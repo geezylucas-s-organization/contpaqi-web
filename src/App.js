@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Switch, Route } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import NavBar from "./router/NavBar";
+import { Routes, RoutesExact } from "./router/routes";
+import { Copyright } from "./components";
 
-function App() {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+}));
+
+const App = () => {
+  const classes = useStyles();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={classes.root}>
+      <NavBar />
+      <main className={classes.content}>
+        <Toolbar />
+        <Switch>
+          {RoutesExact.map((route) => (
+            <Route path={route.path} key={route.path} exact>
+              <route.component />
+            </Route>
+          ))}
+          {Routes.map((route) => (
+            <Route path={route.path} key={route.path}>
+              <route.component />
+            </Route>
+          ))}
+        </Switch>
+        <Copyright />
+      </main>
     </div>
   );
-}
+};
 
 export default App;
