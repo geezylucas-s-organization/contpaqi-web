@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
 import MaterialTable from "material-table";
 
-const ListClientsDialog = ({ handleClose, open }) => {
+const ListClientsDialog = ({ handleClose, open, setHeader, header }) => {
   return (
     <Dialog
       open={open}
@@ -34,7 +34,10 @@ const ListClientsDialog = ({ handleClose, open }) => {
                   birthYear: 2017,
                 },
               ]}
-              onRowClick={(event, rowData) => alert(rowData.name)}
+              onRowClick={(event, rowData) => {
+                setHeader({ ...header, client: rowData.name });
+                handleClose();
+              }}
             />
           </Grid>
         </Grid>

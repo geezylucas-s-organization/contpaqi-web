@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Typography,
@@ -22,12 +22,15 @@ const currencies = [
 ];
 
 const EncabezadoForm = () => {
-  const [currency, setCurrency] = React.useState(1);
-  const [openDialog, setOpenDialog] = React.useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
-  };
+  const [header, setHeader] = useState({
+    date: new Date().toUTCString(),
+    folio: 0,
+    client: "",
+    currency: 1,
+    exchangeRate: "1.0000",
+  });
 
   const SearchClient = () => (
     <Tooltip title="Buscar cliente">
@@ -45,24 +48,20 @@ const EncabezadoForm = () => {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
             id="fecha"
             name="fecha"
             label="Fecha"
             fullWidth
-            disabled
-            value={new Date().toUTCString()}
+            value={header.date}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
             id="folio"
             name="folio"
             label="Folio"
             fullWidth
-            disabled
-            value={38}
+            value={header.folio}
           />
         </Grid>
         <Grid item xs={12}>
@@ -72,8 +71,9 @@ const EncabezadoForm = () => {
             name="cliente"
             label="Cliente"
             fullWidth
-            value="PROV1 - prosis copilco sa de cv"
+            value={header.client}
             InputProps={{ endAdornment: <SearchClient /> }}
+            helperText="Por favor busque y seleccione un elemento"
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -84,8 +84,10 @@ const EncabezadoForm = () => {
             name="moneda"
             label="Moneda"
             fullWidth
-            value={currency}
-            onChange={handleChange}
+            value={header.currency}
+            onChange={(event) =>
+              setHeader({ ...header, currency: event.target.value })
+            }
             helperText="Por favor selecciona un elemento"
           >
             {currencies.map((option) => (
@@ -101,13 +103,18 @@ const EncabezadoForm = () => {
             name="tipoDeCambio"
             label="Tipo de cambio"
             fullWidth
-            value="1.0000"
+            value={header.exchangeRate}
+            onChange={(event) =>
+              setHeader({ ...header, exchangeRate: event.target.value })
+            }
           />
         </Grid>
       </Grid>
       <ListClientsDialog
         open={openDialog}
         handleClose={() => setOpenDialog(false)}
+        setHeader={setHeader}
+        header={header}
       />
     </React.Fragment>
   );

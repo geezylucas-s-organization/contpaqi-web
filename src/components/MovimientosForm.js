@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
@@ -21,14 +21,6 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import { AddMovimientoDialog } from ".";
-
-function createData(id, codigo, nombre, cantidad, unidad, precio, total) {
-  return { id, codigo, nombre, cantidad, unidad, precio, total };
-}
-
-const rows = [
-  createData(1, "PROD1", "alimento para mascotas", 10.0, "(N)", 200.0, 2320.0),
-];
 
 const headCells = [
   {
@@ -97,7 +89,7 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
-const EnhancedTableToolbar = ({ numSelected, handleOpen }) => {
+const EnhancedTableToolbar = ({ numSelected, handleOpen, deleteRows }) => {
   const classes = useToolbarStyles();
 
   return (
@@ -128,7 +120,7 @@ const EnhancedTableToolbar = ({ numSelected, handleOpen }) => {
 
       {numSelected > 0 ? (
         <Tooltip title="Eliminar movimientos">
-          <IconButton aria-label="delete">
+          <IconButton aria-label="delete" onClick={deleteRows}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -148,14 +140,15 @@ EnhancedTableToolbar.propTypes = {
 };
 
 const MovimientosForm = () => {
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [openDialog, setOpenDialog] = React.useState(false);
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [rows, setRows] = useState([]);
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.id);
+      const newSelecteds = rows.map((n) => n.uuid);
       setSelected(newSelecteds);
       return;
     }
@@ -182,13 +175,15 @@ const MovimientosForm = () => {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  const removeItems = () => {
+    let newRows = rows;
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    selected.forEach((element) => {
+      newRows = newRows.filter((item) => item.uuid !== element);
+    });
+
+    setSelected([]);
+    setRows(newRows);
   };
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
@@ -207,6 +202,7 @@ const MovimientosForm = () => {
             <EnhancedTableToolbar
               numSelected={selected.length}
               handleOpen={() => setOpenDialog(true)}
+              deleteRows={removeItems}
             />
             <TableContainer>
               <Table aria-labelledby="tableTitle" aria-label="enhanced table">
@@ -219,16 +215,16 @@ const MovimientosForm = () => {
                   {rows
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
-                      const isItemSelected = isSelected(row.id);
+                      const isItemSelected = isSelected(row.uuid);
                       const labelId = `enhanced-table-checkbox-${index}`;
                       return (
                         <TableRow
                           hover
-                          onClick={(event) => handleClick(event, row.id)}
+                          onClick={(event) => handleClick(event, row.uuid)}
                           role="checkbox"
                           aria-checked={isItemSelected}
                           tabIndex={-1}
-                          key={index}
+                          key={row.uuid}
                           selected={isItemSelected}
                         >
                           <TableCell padding="checkbox">
@@ -243,7 +239,7 @@ const MovimientosForm = () => {
                             scope="row"
                             padding="none"
                           >
-                            {row.id}
+                            {index + 1}
                           </TableCell>
                           <TableCell>{row.codigo}</TableCell>
                           <TableCell>{row.nombre}</TableCell>
@@ -268,8 +264,11 @@ const MovimientosForm = () => {
               count={rows.length}
               rowsPerPage={rowsPerPage}
               page={page}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
+              onChangePage={(event, newPage) => setPage(newPage)}
+              onChangeRowsPerPage={(event) => {
+                setRowsPerPage(parseInt(event.target.value, 10));
+                setPage(0);
+              }}
               labelRowsPerPage="Filas por página"
               labelDisplayedRows={(from = page) =>
                 `${from.from}-${from.to === -1 ? from.count : from.to} de ${
@@ -282,6 +281,7 @@ const MovimientosForm = () => {
       </Grid>
       <AddMovimientoDialog
         open={openDialog}
+        setRows={setRows}
         handleClose={() => setOpenDialog(false)}
       />
     </React.Fragment>
