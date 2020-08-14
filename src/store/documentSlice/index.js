@@ -13,14 +13,11 @@ const documentSlice = createSlice({
     movimientos: [],
   },
   reducers: {
-    addCabecera: (state, action) => {
-      console.log(action.payload);
-      state.cabecera = action.payload;
-    },
-    decrement: (state) => state - 1,
+    addCabecera: (state, action) => (state.cabecera = action.payload),
+    addMovements: (state, action) => (state.movimientos = action.payload),
   },
 });
 
-export const { addCabecera } = documentSlice.actions;
+export const { addCabecera, addMovements } = documentSlice.actions;
 
 export default documentSlice.reducer;

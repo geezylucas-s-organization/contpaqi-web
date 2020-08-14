@@ -12,7 +12,7 @@ import {
   Container,
 } from "@material-ui/core";
 import { EncabezadoForm, MovimientosForm, Review } from "../../components";
-import { addCabecera } from "../../store/documentSlice";
+import { addCabecera, addMovements } from "../../store/documentSlice";
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ["Encabezado", "Movimientos", "Revisar"];
 
-const CreateDocument = ({ addCabecera }) => {
+const CreateDocument = ({ addCabecera, addMovements }) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
 
@@ -66,6 +66,7 @@ const CreateDocument = ({ addCabecera }) => {
     exchangeRate: "1.0000",
     concept: 5,
   });
+  const [movements, setMovements] = useState([]);
 
   const currencies = [
     {
@@ -88,8 +89,6 @@ const CreateDocument = ({ addCabecera }) => {
     },
   ];
 
-  const [movements, setMovements] = useState([]);
-
   function getStepContent(step) {
     switch (step) {
       case 0:
@@ -102,7 +101,7 @@ const CreateDocument = ({ addCabecera }) => {
           />
         );
       case 1:
-        return <MovimientosForm />;
+        return <MovimientosForm rows={movements} setRows={setMovements} />;
       case 2:
         return <Review />;
       default:
@@ -120,6 +119,9 @@ const CreateDocument = ({ addCabecera }) => {
           codigoCteProv: header.client.code,
           fecha: header.date,
         });
+        break;
+      case 2:
+        addMovements(movements);
         break;
       default:
         break;
@@ -184,6 +186,6 @@ const CreateDocument = ({ addCabecera }) => {
 
 const mapStateToProps = (state) => ({ document: state.document });
 
-const mapDispatchToProps = { addCabecera };
+const mapDispatchToProps = { addCabecera, addMovements };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateDocument);

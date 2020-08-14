@@ -139,12 +139,11 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-const MovimientosForm = () => {
+const MovimientosForm = ({ rows, setRows }) => {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openDialog, setOpenDialog] = useState(false);
-  const [rows, setRows] = useState([]);
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -155,12 +154,12 @@ const MovimientosForm = () => {
     setSelected([]);
   };
 
-  const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
+  const handleClick = (event, uuid) => {
+    const selectedIndex = selected.indexOf(uuid);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
+      newSelected = newSelected.concat(selected, uuid);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -186,7 +185,7 @@ const MovimientosForm = () => {
     setRows(newRows);
   };
 
-  const isSelected = (id) => selected.indexOf(id) !== -1;
+  const isSelected = (uuid) => selected.indexOf(uuid) !== -1;
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
