@@ -35,7 +35,6 @@ const ListClientsDialog = ({ handleClose, open, setHeader, header }) => {
                 },
               ]}
               onRowClick={(event, rowData) => {
-                setHeader({ ...header, client: rowData.name });
                 handleClose();
               }}
             />

@@ -1,11 +1,20 @@
-import React from "react";
+import React, { createRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Grid, Button, Container, Typography, Box } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Select,
+  MenuItem,
+} from "@material-ui/core";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
 import MaterialTable from "material-table";
 
 const Documents = () => {
-  const tableRef = React.createRef();
+  const tableRef = createRef();
+  const [age, setAge] = useState(10);
 
   return (
     <Container maxWidth="lg">
@@ -36,7 +45,18 @@ const Documents = () => {
           </Grid>
           <Grid item lg={12} md={12} sm={12}>
             <MaterialTable
-              title="Facturas a crédito"
+              title={
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={age}
+                  onChange={(event) => setAge(event.target.value)}
+                >
+                  <MenuItem value={10}>Todos</MenuItem>
+                  <MenuItem value={20}>Facturas al Contado</MenuItem>
+                  <MenuItem value={30}>Facturas Crédito</MenuItem>
+                </Select>
+              }
               tableRef={tableRef}
               columns={[
                 { title: "Id", field: "id" },

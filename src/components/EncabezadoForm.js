@@ -10,32 +10,13 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import { ListClientsDialog } from ".";
 
-const currencies = [
-  {
-    value: 1,
-    label: "Peso Mexicano",
-  },
-  {
-    value: 2,
-    label: "Dólar Mexicano",
-  },
-];
-
-const EncabezadoForm = () => {
+const EncabezadoForm = ({ header, setHeader }) => {
   const [openDialog, setOpenDialog] = useState(false);
-
-  const [header, setHeader] = useState({
-    date: new Date().toUTCString(),
-    folio: 0,
-    client: "",
-    currency: 1,
-    exchangeRate: "1.0000",
-  });
 
   const SearchClient = () => (
     <Tooltip title="Buscar cliente">
-      <IconButton onClick={() => setOpenDialog(true)}>
-        <SearchIcon />
+      <IconButton onClick={() => setOpenDialog(true)} size="small">
+        <SearchIcon fontSize="small" />
       </IconButton>
     </Tooltip>
   );
@@ -48,30 +29,59 @@ const EncabezadoForm = () => {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
-            id="fecha"
-            name="fecha"
-            label="Fecha"
+            required
+            select
+            id="concepto"
+            name="concepto"
+            label="Concepto"
             fullWidth
-            value={header.date}
-          />
+            value={header.concept}
+            helperText="Por favor selecciona un elemento"
+            onChange={(event) =>
+              setHeader({ ...header, concept: event.target.value })
+            }
+          >
+            {header.concepts.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             id="folio"
             name="folio"
             label="Folio"
+            disabled
             fullWidth
             value={header.folio}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            id="fecha"
+            name="fecha"
+            label="Fecha"
+            type="date"
+            fullWidth
+            defaultValue={header.date}
+            onChange={(event) =>
+              setHeader({ ...header, date: event.target.value })
+            }
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="cliente"
             name="cliente"
             label="Cliente"
             fullWidth
-            value={header.client}
+            value={`${header.client.code} ${header.client.businessName}`}
             InputProps={{ endAdornment: <SearchClient /> }}
             helperText="Por favor busque y seleccione un elemento"
           />
@@ -84,13 +94,13 @@ const EncabezadoForm = () => {
             name="moneda"
             label="Moneda"
             fullWidth
-            value={header.currency}
+            value={header.client.currency}
             onChange={(event) =>
-              setHeader({ ...header, currency: event.target.value })
+              setHeader({ ...header, client: { currency: event.target.value } })
             }
             helperText="Por favor selecciona un elemento"
           >
-            {currencies.map((option) => (
+            {header.currencies.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>

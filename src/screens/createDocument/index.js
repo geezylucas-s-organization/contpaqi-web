@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -10,6 +12,7 @@ import {
   Container,
 } from "@material-ui/core";
 import { EncabezadoForm, MovimientosForm, Review } from "../../components";
+import { addCabecera } from "../../store/documentSlice";
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -47,30 +50,72 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ["Encabezado", "Movimientos", "Revisar"];
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <EncabezadoForm />;
-    case 1:
-      return <MovimientosForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error("Unknown step");
-  }
-}
-
-const CreateDocument = () => {
+const CreateDocument = ({ addCabecera }) => {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
 
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
+  const [header, setHeader] = useState({
+    date: moment(Date.now()).format("YYYY-MM-DD"),
+    folio: 0,
+    client: {
+      code: "PROV1",
+      businessName: "prosis copilco sa de cv",
+      rfc: "PRO010609AAA",
+      currency: 1,
+    },
+    exchangeRate: "1.0000",
+    concept: 5,
+    currencies: [
+      {
+        value: 1,
+        label: "Peso Mexicano",
+      },
+      {
+        value: 2,
+        label: "Dólar Mexicano",
+      },
+    ],
+    concepts: [
+      {
+        value: 5,
+        label: "Facturas al Contado",
+      },
+      {
+        value: 6,
+        label: "Facturas Crédito",
+      },
+    ],
+  });
 
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <EncabezadoForm header={header} setHeader={setHeader} />;
+      case 1:
+        return <MovimientosForm />;
+      case 2:
+        return <Review />;
+      default:
+        throw new Error("Unknown step");
+    }
+  }
+
+  useEffect(() => {
+    switch (activeStep) {
+      case 1:
+        addCabecera({
+          numMoneda: header.client.currency,
+          tipoCambio: header.exchangeRate,
+          codConcepto: header.concept,
+          codigoCteProv: header.client.code,
+          fecha: header.date,
+        });
+        break;
+      default:
+        break;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeStep]);
 
   return (
     <Container maxWidth="lg">
@@ -102,14 +147,17 @@ const CreateDocument = () => {
                 {getStepContent(activeStep)}
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
+                    <Button
+                      onClick={() => setActiveStep(activeStep - 1)}
+                      className={classes.button}
+                    >
                       Anterior
                     </Button>
                   )}
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={handleNext}
+                    onClick={() => setActiveStep(activeStep + 1)}
                     className={classes.button}
                   >
                     {activeStep === steps.length - 1 ? "Crear" : "Siguiente"}
@@ -124,4 +172,8 @@ const CreateDocument = () => {
   );
 };
 
-export default CreateDocument;
+const mapStateToProps = (state) => ({ document: state.document });
+
+const mapDispatchToProps = { addCabecera };
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateDocument);
