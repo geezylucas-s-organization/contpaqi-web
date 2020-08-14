@@ -6,15 +6,27 @@ import {
   Container,
   Typography,
   Box,
-  Select,
+  TextField,
   MenuItem,
+  InputAdornment,
 } from "@material-ui/core";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
+import FilterListIcon from "@material-ui/icons/FilterList";
 import MaterialTable from "material-table";
 
 const Documents = () => {
   const tableRef = createRef();
-  const [age, setAge] = useState(10);
+  const concepts = [
+    {
+      value: 5,
+      label: "Facturas al Contado",
+    },
+    {
+      value: 6,
+      label: "Facturas Crédito",
+    },
+  ];
+  const [concept, setConcept] = useState(5);
 
   return (
     <Container maxWidth="lg">
@@ -46,16 +58,27 @@ const Documents = () => {
           <Grid item lg={12} md={12} sm={12}>
             <MaterialTable
               title={
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={age}
-                  onChange={(event) => setAge(event.target.value)}
+                <TextField
+                  select
+                  id="concept"
+                  name="concept"
+                  fullWidth
+                  value={concept}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <FilterListIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={(event) => setConcept(event.target.value)}
                 >
-                  <MenuItem value={10}>Todos</MenuItem>
-                  <MenuItem value={20}>Facturas al Contado</MenuItem>
-                  <MenuItem value={30}>Facturas Crédito</MenuItem>
-                </Select>
+                  {concepts.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               }
               tableRef={tableRef}
               columns={[

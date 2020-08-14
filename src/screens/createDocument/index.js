@@ -58,39 +58,49 @@ const CreateDocument = ({ addCabecera }) => {
     date: moment(Date.now()).format("YYYY-MM-DD"),
     folio: 0,
     client: {
-      code: "PROV1",
-      businessName: "prosis copilco sa de cv",
-      rfc: "PRO010609AAA",
+      code: "",
+      businessName: "",
+      rfc: "",
       currency: 1,
     },
     exchangeRate: "1.0000",
     concept: 5,
-    currencies: [
-      {
-        value: 1,
-        label: "Peso Mexicano",
-      },
-      {
-        value: 2,
-        label: "Dólar Mexicano",
-      },
-    ],
-    concepts: [
-      {
-        value: 5,
-        label: "Facturas al Contado",
-      },
-      {
-        value: 6,
-        label: "Facturas Crédito",
-      },
-    ],
   });
+
+  const currencies = [
+    {
+      value: 1,
+      label: "Peso Mexicano",
+    },
+    {
+      value: 2,
+      label: "Dólar Mexicano",
+    },
+  ];
+  const concepts = [
+    {
+      value: 5,
+      label: "Facturas al Contado",
+    },
+    {
+      value: 6,
+      label: "Facturas Crédito",
+    },
+  ];
+
+  const [movements, setMovements] = useState([]);
 
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <EncabezadoForm header={header} setHeader={setHeader} />;
+        return (
+          <EncabezadoForm
+            header={header}
+            setHeader={setHeader}
+            concepts={concepts}
+            currencies={currencies}
+          />
+        );
       case 1:
         return <MovimientosForm />;
       case 2:

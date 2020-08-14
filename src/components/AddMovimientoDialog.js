@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Grid,
   Tooltip,
@@ -22,12 +21,12 @@ const AddMovimientoDialog = ({ open, handleClose, setRows }) => {
   useEffect(() => {
     setMovement({
       uuid: uuidv4(),
-      codigo: "PROD1",
-      nombre: "alimento para mascotas",
-      cantidad: 10.0,
+      codigo: "",
+      nombre: "Ninguno",
+      cantidad: 0.0,
       unidad: "(N)",
-      precio: 200.0,
-      total: 2320.0,
+      precio: 0.0,
+      total: 0.0,
     });
   }, [open]);
 
@@ -49,7 +48,6 @@ const AddMovimientoDialog = ({ open, handleClose, setRows }) => {
       >
         <DialogTitle id="form-dialog-title">Agregar movimiento</DialogTitle>
         <DialogContent dividers>
-          <DialogContentText>Ingrese todos los datos:</DialogContentText>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextField

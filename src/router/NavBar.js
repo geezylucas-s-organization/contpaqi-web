@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import { RoutesExact } from "./routes";
 
-const drawerWidth = 220;
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   appBar: {

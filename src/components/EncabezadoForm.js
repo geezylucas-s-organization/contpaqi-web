@@ -6,17 +6,18 @@ import {
   MenuItem,
   Tooltip,
   IconButton,
+  InputAdornment,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { ListClientsDialog } from ".";
 
-const EncabezadoForm = ({ header, setHeader }) => {
+const EncabezadoForm = ({ header, setHeader, concepts, currencies }) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   const SearchClient = () => (
     <Tooltip title="Buscar cliente">
       <IconButton onClick={() => setOpenDialog(true)} size="small">
-        <SearchIcon fontSize="small" />
+        <SearchIcon />
       </IconButton>
     </Tooltip>
   );
@@ -41,7 +42,7 @@ const EncabezadoForm = ({ header, setHeader }) => {
               setHeader({ ...header, concept: event.target.value })
             }
           >
-            {header.concepts.map((option) => (
+            {concepts.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
@@ -82,7 +83,13 @@ const EncabezadoForm = ({ header, setHeader }) => {
             label="Cliente"
             fullWidth
             value={`${header.client.code} ${header.client.businessName}`}
-            InputProps={{ endAdornment: <SearchClient /> }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchClient />
+                </InputAdornment>
+              ),
+            }}
             helperText="Por favor busque y seleccione un elemento"
           />
         </Grid>
@@ -100,7 +107,7 @@ const EncabezadoForm = ({ header, setHeader }) => {
             }
             helperText="Por favor selecciona un elemento"
           >
-            {header.currencies.map((option) => (
+            {currencies.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
