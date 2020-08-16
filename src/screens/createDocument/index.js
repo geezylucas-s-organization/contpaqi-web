@@ -12,7 +12,11 @@ import {
   Container,
 } from "@material-ui/core";
 import { EncabezadoForm, MovimientosForm, Review } from "../../components";
-import { addCabecera, addMovements } from "../../store/documentSlice";
+import {
+  addCabecera,
+  addMovements,
+  fetchPropsDoc,
+} from "../../store/documentSlice";
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -50,7 +54,12 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ["Encabezado", "Movimientos", "Revisar"];
 
-const CreateDocument = ({ addCabecera, addMovements }) => {
+const CreateDocument = ({
+  addCabecera,
+  addMovements,
+  fetchPropsDoc,
+  props,
+}) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
 
@@ -98,6 +107,7 @@ const CreateDocument = ({ addCabecera, addMovements }) => {
             setHeader={setHeader}
             concepts={concepts}
             currencies={currencies}
+            clients={props.clientesYProveedores}
           />
         );
       case 1:
@@ -108,6 +118,10 @@ const CreateDocument = ({ addCabecera, addMovements }) => {
         throw new Error("Unknown step");
     }
   }
+
+  useEffect(() => {
+    fetchPropsDoc();
+  }, [fetchPropsDoc]);
 
   useEffect(() => {
     switch (activeStep) {
@@ -184,8 +198,8 @@ const CreateDocument = ({ addCabecera, addMovements }) => {
   );
 };
 
-const mapStateToProps = (state) => ({ document: state.document });
+const mapStateToProps = (state) => ({ props: state.document.props });
 
-const mapDispatchToProps = { addCabecera, addMovements };
+const mapDispatchToProps = { addCabecera, addMovements, fetchPropsDoc };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateDocument);

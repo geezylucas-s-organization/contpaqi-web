@@ -11,7 +11,13 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import { ListClientsDialog } from ".";
 
-const EncabezadoForm = ({ header, setHeader, concepts, currencies }) => {
+const EncabezadoForm = ({
+  header,
+  setHeader,
+  concepts,
+  currencies,
+  clients,
+}) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   const SearchClient = () => (
@@ -132,6 +138,7 @@ const EncabezadoForm = ({ header, setHeader, concepts, currencies }) => {
         handleClose={() => setOpenDialog(false)}
         setHeader={setHeader}
         header={header}
+        clients={clients}
       />
     </React.Fragment>
   );
