@@ -65,7 +65,7 @@ const CreateDocument = ({
 
   const [header, setHeader] = useState({
     date: moment(Date.now()).format("YYYY-MM-DD"),
-    folio: 0,
+    folio: "",
     client: {
       code: "",
       businessName: "",
@@ -73,30 +73,10 @@ const CreateDocument = ({
       currency: 1,
     },
     exchangeRate: "1.0000",
-    concept: 5,
+    concept: "",
   });
-  const [movements, setMovements] = useState([]);
 
-  const currencies = [
-    {
-      value: 1,
-      label: "Peso Mexicano",
-    },
-    {
-      value: 2,
-      label: "Dólar Mexicano",
-    },
-  ];
-  const concepts = [
-    {
-      value: 5,
-      label: "Facturas al Contado",
-    },
-    {
-      value: 6,
-      label: "Facturas Crédito",
-    },
-  ];
+  const [movements, setMovements] = useState([]);
 
   function getStepContent(step) {
     switch (step) {
@@ -105,8 +85,7 @@ const CreateDocument = ({
           <EncabezadoForm
             header={header}
             setHeader={setHeader}
-            concepts={concepts}
-            currencies={currencies}
+            concepts={extra.conceptos}
             clients={extra.clientesYProveedores}
           />
         );
@@ -120,7 +99,7 @@ const CreateDocument = ({
   }
 
   useEffect(() => {
-    // fetchPropsDoc();
+    fetchPropsDoc();
   }, [fetchPropsDoc]);
 
   useEffect(() => {

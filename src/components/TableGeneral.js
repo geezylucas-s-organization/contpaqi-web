@@ -9,7 +9,7 @@ import {
   TablePagination,
 } from "@material-ui/core";
 
-const TableGeneral = ({ rows, columns }) => {
+const TableGeneral = ({ rows, columns, clickRow }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -21,6 +21,7 @@ const TableGeneral = ({ rows, columns }) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
   return (
     <React.Fragment>
       <TableContainer>
@@ -41,9 +42,14 @@ const TableGeneral = ({ rows, columns }) => {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row, i) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow
+                    hover
+                    tabIndex={-1}
+                    key={i}
+                    onClick={() => clickRow(row)}
+                  >
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -63,7 +69,7 @@ const TableGeneral = ({ rows, columns }) => {
       <TablePagination
         rowsPerPageOptions={[5, 10]}
         component="div"
-        count={-1}
+        count={rows.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}

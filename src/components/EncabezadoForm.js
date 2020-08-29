@@ -11,14 +11,30 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import { ListClientsDialog } from ".";
 
-const EncabezadoForm = ({
-  header,
-  setHeader,
-  concepts,
-  currencies,
-  clients,
-}) => {
+const EncabezadoForm = ({ header, setHeader, concepts, clients }) => {
   const [openDialog, setOpenDialog] = useState(false);
+
+  const currencies = [
+    {
+      value: 1,
+      label: "Peso Mexicano",
+    },
+    {
+      value: 2,
+      label: "Dólar Mexicano",
+    },
+  ];
+
+  const handleConcepts = (event) => {
+    const concept = concepts.find(
+      (e) => e.codigoConcepto === event.target.value
+    );
+    setHeader({
+      ...header,
+      concept: concept.codigoConcepto,
+      folio: concept.noFolio,
+    });
+  };
 
   const SearchClient = () => (
     <Tooltip title="Buscar cliente">
@@ -44,13 +60,14 @@ const EncabezadoForm = ({
             fullWidth
             value={header.concept}
             helperText="Por favor selecciona un elemento"
-            onChange={(event) =>
-              setHeader({ ...header, concept: event.target.value })
-            }
+            onChange={(event) => handleConcepts(event)}
           >
             {concepts.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
+              <MenuItem
+                key={option.codigoConcepto}
+                value={option.codigoConcepto}
+              >
+                {option.nombreConcepto}
               </MenuItem>
             ))}
           </TextField>
