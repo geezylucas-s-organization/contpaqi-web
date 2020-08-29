@@ -13,10 +13,8 @@ const ListClientsDialog = ({
   open,
   setHeader,
   header,
-  clients,
+  clientsVendors,
 }) => {
-  const rows = clients.map((o) => ({ ...o }));
-
   const clickRow = (row) => {
     setHeader({
       ...header,
@@ -43,7 +41,11 @@ const ListClientsDialog = ({
       <DialogContent dividers>
         <Grid container spacing={3}>
           <Grid item md={12} sm={12}>
-            <TableGeneral rows={rows} columns={columns} clickRow={clickRow} />
+            <TableGeneral
+              rows={clientsVendors}
+              columns={columns}
+              clickRow={clickRow}
+            />
           </Grid>
         </Grid>
       </DialogContent>

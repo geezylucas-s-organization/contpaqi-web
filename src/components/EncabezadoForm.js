@@ -11,7 +11,7 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import { ListClientsDialog } from ".";
 
-const EncabezadoForm = ({ header, setHeader, concepts, clients }) => {
+const EncabezadoForm = ({ header, setHeader, concepts, clientsVendors }) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   const currencies = [
@@ -105,7 +105,11 @@ const EncabezadoForm = ({ header, setHeader, concepts, clients }) => {
             name="cliente"
             label="Cliente"
             fullWidth
-            value={`${header.client.code} ${header.client.businessName}`}
+            value={
+              header.client.code !== ""
+                ? `${header.client.code} ${header.client.businessName}`
+                : ""
+            }
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -155,7 +159,7 @@ const EncabezadoForm = ({ header, setHeader, concepts, clients }) => {
         handleClose={() => setOpenDialog(false)}
         setHeader={setHeader}
         header={header}
-        clients={clients}
+        clientsVendors={clientsVendors}
       />
     </React.Fragment>
   );

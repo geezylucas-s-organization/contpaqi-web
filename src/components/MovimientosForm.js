@@ -139,7 +139,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-const MovimientosForm = ({ rows, setRows }) => {
+const MovimientosForm = ({ rows, setRows, productsServices }) => {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -279,6 +279,7 @@ const MovimientosForm = ({ rows, setRows }) => {
         </Grid>
       </Grid>
       <AddMovimientoDialog
+        productsServices={productsServices}
         open={openDialog}
         setRows={setRows}
         handleClose={() => setOpenDialog(false)}

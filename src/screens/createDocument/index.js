@@ -70,7 +70,7 @@ const CreateDocument = ({
       code: "",
       businessName: "",
       rfc: "",
-      currency: 1,
+      currency: "",
     },
     exchangeRate: "1.0000",
     concept: "",
@@ -86,11 +86,17 @@ const CreateDocument = ({
             header={header}
             setHeader={setHeader}
             concepts={extra.conceptos}
-            clients={extra.clientesYProveedores}
+            clientsVendors={extra.clientesYProveedores}
           />
         );
       case 1:
-        return <MovimientosForm rows={movements} setRows={setMovements} />;
+        return (
+          <MovimientosForm
+            rows={movements}
+            setRows={setMovements}
+            productsServices={extra.productosYServicios}
+          />
+        );
       case 2:
         return <Review />;
       default:

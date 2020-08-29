@@ -9,24 +9,40 @@ import {
   Grid,
   Tooltip,
   IconButton,
+  MenuItem,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { v4 as uuidv4 } from "uuid";
 import { ListProductsDialog } from ".";
 
-const AddMovimientoDialog = ({ open, handleClose, setRows }) => {
+const AddMovimientoDialog = ({
+  open,
+  handleClose,
+  setRows,
+  productsServices,
+}) => {
   const [openDialog, setOpenDialog] = useState(false);
-  const [movement, setMovement] = useState({});
+  const [movement, setMovement] = useState({
+    uuid: uuidv4(),
+    codigo: "",
+    nombre: "",
+    cantidad: 0.0,
+    unidad: "(N)",
+    precio: "",
+    total: 0.0,
+    precios: [],
+  });
 
   useEffect(() => {
     setMovement({
       uuid: uuidv4(),
       codigo: "",
-      nombre: "Ninguno",
+      nombre: "",
       cantidad: 0.0,
       unidad: "(N)",
-      precio: 0.0,
+      precio: "",
       total: 0.0,
+      precios: [],
     });
   }, [open]);
 
@@ -47,7 +63,7 @@ const AddMovimientoDialog = ({ open, handleClose, setRows }) => {
         maxWidth="sm"
       >
         <DialogTitle id="form-dialog-title">Agregar movimiento</DialogTitle>
-        <DialogContent>
+        <DialogContent dividers>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextField
@@ -84,14 +100,39 @@ const AddMovimientoDialog = ({ open, handleClose, setRows }) => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="precio"
-                name="precio"
-                label="Precio"
-                fullWidth
-                value={movement.precio}
-              />
+              {movement.precios.length > 0 ? (
+                <TextField
+                  required
+                  select
+                  id="precio"
+                  name="precio"
+                  label="Precio"
+                  fullWidth
+                  value={movement.precio}
+                  helperText="Por favor selecciona un elemento"
+                  onChange={(event) =>
+                    setMovement({ ...movement, precio: event.target.value })
+                  }
+                >
+                  {movement.precios.map((e) => (
+                    <MenuItem key={e} value={e}>
+                      {e}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              ) : (
+                <TextField
+                  required
+                  id="precio"
+                  name="precio"
+                  label="Precio"
+                  fullWidth
+                  value={movement.precio}
+                  onChange={(event) =>
+                    setMovement({ ...movement, precio: event.target.value })
+                  }
+                />
+              )}
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -131,6 +172,9 @@ const AddMovimientoDialog = ({ open, handleClose, setRows }) => {
         </DialogActions>
       </Dialog>
       <ListProductsDialog
+        productsServices={productsServices}
+        movement={movement}
+        setMovement={setMovement}
         open={openDialog}
         handleClose={() => setOpenDialog(false)}
       />
