@@ -27,6 +27,18 @@ const documentSlice = createSlice({
     },
     movimientos: [],
     extra: {
+      currencies: [
+        {
+          value: 1,
+          label: "Peso Mexicano",
+        },
+        {
+          value: 2,
+          label: "Dólar Mexicano",
+        },
+      ],
+    },
+    extraAPI: {
       productosYServicios: [],
       clientesYProveedores: [],
       conceptos: [],
@@ -42,7 +54,7 @@ const documentSlice = createSlice({
   },
   extraReducers: {
     [fetchPropsDoc.fulfilled]: (state, action) => {
-      state.extra = action.payload;
+      state.extraAPI = action.payload;
     },
   },
 });

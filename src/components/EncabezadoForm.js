@@ -11,26 +11,22 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import { ListClientsDialog } from ".";
 
-const EncabezadoForm = ({ header, setHeader, concepts, clientsVendors }) => {
+const EncabezadoForm = ({
+  header,
+  setHeader,
+  concepts,
+  clientsVendors,
+  currencies,
+}) => {
   const [openDialog, setOpenDialog] = useState(false);
-
-  const currencies = [
-    {
-      value: 1,
-      label: "Peso Mexicano",
-    },
-    {
-      value: 2,
-      label: "Dólar Mexicano",
-    },
-  ];
 
   const handleConcepts = (event) => {
     const concept = concepts.find(
-      (e) => e.codigoConcepto === event.target.value
+      (e) => e.codigoConcepto == event.target.value
     );
     setHeader({
       ...header,
+      nomConcept: concept.nombreConcepto,
       concept: concept.codigoConcepto,
       folio: concept.noFolio,
     });
@@ -129,9 +125,18 @@ const EncabezadoForm = ({ header, setHeader, concepts, clientsVendors }) => {
             label="Moneda"
             fullWidth
             value={header.client.currency}
-            onChange={(event) =>
-              setHeader({ ...header, client: { currency: event.target.value } })
-            }
+            onChange={(event) => {
+              const currency = currencies.find(
+                (o) => o.value == event.target.value
+              );
+              setHeader({
+                ...header,
+                client: {
+                  currency: currency.value,
+                  nomCurrency: currency.label,
+                },
+              });
+            }}
             helperText="Por favor selecciona un elemento"
           >
             {currencies.map((option) => (
@@ -146,6 +151,10 @@ const EncabezadoForm = ({ header, setHeader, concepts, clientsVendors }) => {
             id="tipoDeCambio"
             name="tipoDeCambio"
             label="Tipo de cambio"
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
             fullWidth
             value={header.exchangeRate}
             onChange={(event) =>
@@ -159,6 +168,7 @@ const EncabezadoForm = ({ header, setHeader, concepts, clientsVendors }) => {
         handleClose={() => setOpenDialog(false)}
         setHeader={setHeader}
         header={header}
+        currencies={currencies}
         clientsVendors={clientsVendors}
       />
     </React.Fragment>

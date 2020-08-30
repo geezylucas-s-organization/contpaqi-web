@@ -15,6 +15,10 @@ import SearchIcon from "@material-ui/icons/Search";
 import { v4 as uuidv4 } from "uuid";
 import { ListProductsDialog } from ".";
 
+function financial(x) {
+  return Number.parseFloat(x).toFixed(2);
+}
+
 const AddMovimientoDialog = ({
   open,
   handleClose,
@@ -26,11 +30,12 @@ const AddMovimientoDialog = ({
     uuid: uuidv4(),
     codigo: "",
     nombre: "",
-    cantidad: 0.0,
+    cantidad: financial(0.0),
     unidad: "(N)",
-    precio: "",
-    total: 0.0,
+    precio: financial(0.0),
     precios: [],
+    total: financial(0.0),
+    iva: financial(0.0),
   });
 
   useEffect(() => {
@@ -38,11 +43,12 @@ const AddMovimientoDialog = ({
       uuid: uuidv4(),
       codigo: "",
       nombre: "",
-      cantidad: 0.0,
+      cantidad: financial(0.0),
       unidad: "(N)",
-      precio: "",
-      total: 0.0,
+      precio: financial(0.0),
       precios: [],
+      total: financial(0.0),
+      iva: financial(0.0),
     });
   }, [open]);
 
@@ -72,7 +78,7 @@ const AddMovimientoDialog = ({
                 name="producto"
                 label="Producto"
                 fullWidth
-                value={movement.nombre}
+                value={`${movement.codigo} ${movement.nombre}`}
                 InputProps={{ endAdornment: <SearchProduct /> }}
               />
             </Grid>
@@ -92,9 +98,20 @@ const AddMovimientoDialog = ({
                 id="cantidad"
                 name="cantidad"
                 label="Cantidad"
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 fullWidth
                 onChange={(event) =>
-                  setMovement({ ...movement, cantidad: event.target.value })
+                  setMovement({
+                    ...movement,
+                    cantidad: event.target.value,
+                    iva: event.target.value * movement.precio * 0.16,
+                    total: financial(
+                      event.target.value * movement.precio * 1.16
+                    ),
+                  })
                 }
                 value={movement.cantidad}
               />
@@ -111,7 +128,14 @@ const AddMovimientoDialog = ({
                   value={movement.precio}
                   helperText="Por favor selecciona un elemento"
                   onChange={(event) =>
-                    setMovement({ ...movement, precio: event.target.value })
+                    setMovement({
+                      ...movement,
+                      precio: event.target.value,
+                      iva: event.target.value * movement.cantidad * 0.16,
+                      total: financial(
+                        event.target.value * movement.cantidad * 1.16
+                      ),
+                    })
                   }
                 >
                   {movement.precios.map((e) => (
@@ -126,10 +150,21 @@ const AddMovimientoDialog = ({
                   id="precio"
                   name="precio"
                   label="Precio"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   fullWidth
                   value={movement.precio}
                   onChange={(event) =>
-                    setMovement({ ...movement, precio: event.target.value })
+                    setMovement({
+                      ...movement,
+                      precio: event.target.value,
+                      iva: event.target.value * movement.cantidad * 0.16,
+                      total: financial(
+                        event.target.value * movement.cantidad * 1.16
+                      ),
+                    })
                   }
                 />
               )}
@@ -141,7 +176,7 @@ const AddMovimientoDialog = ({
                 name="descuento"
                 label="Descuento"
                 fullWidth
-                value="0.0"
+                value="0.00"
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -151,7 +186,17 @@ const AddMovimientoDialog = ({
                 name="iva"
                 label="I.V.A."
                 fullWidth
-                value="0.0"
+                value={movement.iva}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                disabled
+                id="total"
+                name="total"
+                label="Total"
+                fullWidth
+                value={movement.total}
               />
             </Grid>
           </Grid>

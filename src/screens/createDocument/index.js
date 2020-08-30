@@ -58,7 +58,8 @@ const CreateDocument = ({
   addCabecera,
   addMovements,
   fetchPropsDoc,
-  extra,
+  extraAPI,
+  currencies,
 }) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
@@ -71,9 +72,11 @@ const CreateDocument = ({
       businessName: "",
       rfc: "",
       currency: "",
+      nomCurrency: "",
     },
     exchangeRate: "1.0000",
     concept: "",
+    nomConcept: "",
   });
 
   const [movements, setMovements] = useState([]);
@@ -85,8 +88,9 @@ const CreateDocument = ({
           <EncabezadoForm
             header={header}
             setHeader={setHeader}
-            concepts={extra.conceptos}
-            clientsVendors={extra.clientesYProveedores}
+            concepts={extraAPI.conceptos}
+            clientsVendors={extraAPI.clientesYProveedores}
+            currencies={currencies}
           />
         );
       case 1:
@@ -94,7 +98,7 @@ const CreateDocument = ({
           <MovimientosForm
             rows={movements}
             setRows={setMovements}
-            productsServices={extra.productosYServicios}
+            productsServices={extraAPI.productosYServicios}
           />
         );
       case 2:
@@ -113,14 +117,27 @@ const CreateDocument = ({
       case 1:
         addCabecera({
           numMoneda: header.client.currency,
+          nomMoneda: header.client.nomCurrency,
           tipoCambio: header.exchangeRate,
           codConcepto: header.concept,
+          nomConcepto: header.nomConcept,
           codigoCteProv: header.client.code,
+          nomCteProv: header.client.businessName,
           fecha: header.date,
+          folio: header.folio,
         });
         break;
       case 2:
-        addMovements(movements);
+        addMovements(
+          movements.map((o) => ({
+            codAlmacen: 1,
+            codProducto: o.codigo,
+            nomProducto: o.nombre,
+            precio: o.precio,
+            unidades: o.cantidad,
+            total: o.total,
+          }))
+        );
         break;
       default:
         break;
@@ -183,7 +200,10 @@ const CreateDocument = ({
   );
 };
 
-const mapStateToProps = (state) => ({ extra: state.document.extra });
+const mapStateToProps = (state) => ({
+  extraAPI: state.document.extraAPI,
+  currencies: state.document.extra.currencies,
+});
 
 const mapDispatchToProps = { addCabecera, addMovements, fetchPropsDoc };
 

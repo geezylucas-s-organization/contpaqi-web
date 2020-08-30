@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Divider,
@@ -8,21 +9,6 @@ import {
   List,
   Typography,
 } from "@material-ui/core";
-
-const products = [
-  {
-    id: 1,
-    name: "PROD1 - alimento para mascotas",
-    desc: "Cantidad: 10.0 - precio: $200.0",
-    price: "$2320.00",
-  },
-  {
-    id: 2,
-    name: "PROD1 - alimento para mascotas",
-    desc: "Cantidad: 1.0 - precio: $200.0",
-    price: "$200.00",
-  },
-];
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -36,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Review = () => {
+const Review = ({ cabecera, movimientos }) => {
   const classes = useStyles();
 
   return (
@@ -49,25 +35,32 @@ const Review = () => {
           <Typography variant="h6" gutterBottom className={classes.title}>
             Encabezado
           </Typography>
-          <Typography gutterBottom>Fecha: 31/07/2020</Typography>
-          <Typography gutterBottom>Folio: 38</Typography>
-          <Typography gutterBottom>Moneda: Peso Mexicano</Typography>
-          <Typography gutterBottom>Tipo de cambio: 1.0000</Typography>
+          <Typography gutterBottom>Fecha: {cabecera.fecha}</Typography>
+          <Typography gutterBottom>Concepto: {cabecera.nomConcepto}</Typography>
+          <Typography gutterBottom>Folio: {cabecera.folio}</Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom className={classes.title}>
             Cliente
           </Typography>
-          <Typography gutterBottom>Clave: PROV1</Typography>
-          <Typography gutterBottom>Nombre: prosis copilco sa de cv</Typography>
+          <Typography gutterBottom>
+            Nombre: {cabecera.codigoCteProv} {cabecera.nomCteProv}
+          </Typography>
+          <Typography gutterBottom>Moneda: {cabecera.nomMoneda}</Typography>
+          <Typography gutterBottom>
+            Tipo de cambio: {cabecera.tipoCambio}
+          </Typography>
         </Grid>
       </Grid>
       <Divider />
       <List disablePadding>
-        {products.map((product) => (
-          <ListItem className={classes.listItem} key={product.id}>
-            <ListItemText primary={product.name} secondary={product.desc} />
-            <Typography variant="body2">{product.price}</Typography>
+        {movimientos.map((product, i) => (
+          <ListItem className={classes.listItem} key={i}>
+            <ListItemText
+              primary={product.nomProducto}
+              secondary={`Cantidad: ${product.unidades}`}
+            />
+            <Typography variant="body2">{product.total}</Typography>
           </ListItem>
         ))}
         <ListItem className={classes.listItem}>
@@ -100,4 +93,9 @@ const Review = () => {
   );
 };
 
-export default Review;
+const mapStateToProps = (state) => ({
+  cabecera: state.document.cabecera,
+  movimientos: state.document.movimientos,
+});
+
+export default connect(mapStateToProps, {})(Review);

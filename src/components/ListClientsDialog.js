@@ -14,15 +14,18 @@ const ListClientsDialog = ({
   setHeader,
   header,
   clientsVendors,
+  currencies,
 }) => {
   const clickRow = (row) => {
+    const currency = currencies.find((o) => o.value == row.moneda);
     setHeader({
       ...header,
       client: {
         code: row.codigo,
         businessName: row.razonSocial,
         rfc: row.rfc,
-        currency: row.moneda,
+        currency: currency.value,
+        nomCurrency: currency.label,
       },
     });
 
