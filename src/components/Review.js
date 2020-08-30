@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Divider,
@@ -21,6 +20,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
+
+function financial(x) {
+  return Number.parseFloat(x).toFixed(2);
+}
+
+const reducerTotal = (accumulator, currentValue) => accumulator + currentValue;
 
 const Review = ({ cabecera, movimientos }) => {
   const classes = useStyles();
@@ -66,26 +71,47 @@ const Review = ({ cabecera, movimientos }) => {
         <ListItem className={classes.listItem}>
           <ListItemText primary="Total de productos" />
           <Typography variant="subtitle1" className={classes.total}>
-            11
+            {movimientos.length > 0 &&
+              financial(
+                movimientos
+                  .map((o) => parseFloat(o.unidades))
+                  .reduce(reducerTotal)
+              )}
           </Typography>
         </ListItem>
         <Divider />
         <ListItem className={classes.listItem}>
           <ListItemText primary="Subtotal" />
           <Typography variant="subtitle1" className={classes.total}>
-            $2200.00
+            $
+            {movimientos.length > 0 &&
+              financial(
+                movimientos
+                  .map((o) => parseFloat(o.total))
+                  .reduce(reducerTotal) / 1.16
+              )}
           </Typography>
         </ListItem>
         <ListItem className={classes.listItem}>
           <ListItemText primary="I.V.A" />
           <Typography variant="subtitle1" className={classes.total}>
-            $352.00
+            $
+            {movimientos.length > 0 &&
+              financial(
+                movimientos
+                  .map((o) => parseFloat(o.total))
+                  .reduce(reducerTotal) * 0.16
+              )}
           </Typography>
         </ListItem>
         <ListItem className={classes.listItem}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" className={classes.total}>
-            $2552.00
+            $
+            {movimientos.length > 0 &&
+              financial(
+                movimientos.map((o) => parseFloat(o.total)).reduce(reducerTotal)
+              )}
           </Typography>
         </ListItem>
       </List>
@@ -93,9 +119,4 @@ const Review = ({ cabecera, movimientos }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  cabecera: state.document.cabecera,
-  movimientos: state.document.movimientos,
-});
-
-export default connect(mapStateToProps, {})(Review);
+export default Review;

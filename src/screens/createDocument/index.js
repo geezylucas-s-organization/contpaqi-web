@@ -60,6 +60,8 @@ const CreateDocument = ({
   fetchPropsDoc,
   extraAPI,
   currencies,
+  cabecera,
+  movimientos,
 }) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
@@ -102,7 +104,7 @@ const CreateDocument = ({
           />
         );
       case 2:
-        return <Review />;
+        return <Review cabecera={cabecera} movimientos={movimientos} />;
       default:
         throw new Error("Unknown step");
     }
@@ -203,6 +205,8 @@ const CreateDocument = ({
 const mapStateToProps = (state) => ({
   extraAPI: state.document.extraAPI,
   currencies: state.document.extra.currencies,
+  cabecera: state.document.cabecera,
+  movimientos: state.document.movimientos,
 });
 
 const mapDispatchToProps = { addCabecera, addMovements, fetchPropsDoc };
