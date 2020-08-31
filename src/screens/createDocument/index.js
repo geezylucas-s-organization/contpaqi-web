@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -10,6 +11,8 @@ import {
   Button,
   Typography,
   Container,
+  CircularProgress,
+  Grid,
 } from "@material-ui/core";
 import { EncabezadoForm, MovimientosForm, Review } from "../../components";
 import {
@@ -54,6 +57,10 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ["Encabezado", "Movimientos", "Revisar"];
 
+function financial(x) {
+  return Number.parseFloat(x).toFixed(2);
+}
+
 const CreateDocument = ({
   addCabecera,
   addMovements,
@@ -82,6 +89,7 @@ const CreateDocument = ({
   });
 
   const [movements, setMovements] = useState([]);
+  const [sendingData, setSendingData] = useState(true);
 
   function getStepContent(step) {
     switch (step) {
@@ -115,12 +123,29 @@ const CreateDocument = ({
   }, [fetchPropsDoc]);
 
   useEffect(() => {
+    const sendDataAsync = async (data) => {
+      try {
+        await axios.post(
+          "http://localhost:5007/api/Documento/CreateDocumento",
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setSendingData(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     switch (activeStep) {
       case 1:
         addCabecera({
           numMoneda: header.client.currency,
           nomMoneda: header.client.nomCurrency,
-          tipoCambio: header.exchangeRate,
+          tipoCambio: Number.parseFloat(header.exchangeRate).toFixed(4),
           codConcepto: header.concept,
           nomConcepto: header.nomConcept,
           codigoCteProv: header.client.code,
@@ -135,11 +160,35 @@ const CreateDocument = ({
             codAlmacen: 1,
             codProducto: o.codigo,
             nomProducto: o.nombre,
-            precio: o.precio,
-            unidades: o.cantidad,
-            total: o.total,
+            precio: parseInt(o.precio),
+            unidades: parseInt(o.cantidad),
+            total: financial(o.total),
           }))
         );
+        break;
+      case 3:
+        const data = {
+          cabecera: {
+            numMoneda: cabecera.numMoneda,
+            serie: {
+              m_MaxCapacity: 2147483647,
+              Capacity: 16,
+              m_StringValue: "",
+              m_currentThread: 0,
+            },
+            tipoCambio: cabecera.tipoCambio,
+            codConcepto: cabecera.codConcepto.toString(),
+            codigoCteProv: cabecera.codigoCteProv,
+            fecha: moment(cabecera.fecha).format("MM/DD/YYYY"),
+          },
+          movimientos: movimientos.map((o) => ({
+            codAlmacen: o.codAlmacen,
+            codProducto: o.codProducto,
+            precio: o.precio,
+            unidades: o.unidades,
+          })),
+        };
+        sendDataAsync(data);
         break;
       default:
         break;
@@ -163,15 +212,20 @@ const CreateDocument = ({
           </Stepper>
           <React.Fragment>
             {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Documento creado.
-                </Typography>
-                <Typography variant="subtitle1">
-                  En un momento se timbrará el documento y será exportado para
-                  su visualización o administración.
-                </Typography>
-              </React.Fragment>
+              sendingData ? (
+                <Grid container justify="center">
+                  <CircularProgress size={60} />
+                </Grid>
+              ) : (
+                <React.Fragment>
+                  <Typography variant="h5" gutterBottom>
+                    Documento creado.
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    Documento creado y timbrado con éxito.
+                  </Typography>
+                </React.Fragment>
+              )
             ) : (
               <React.Fragment>
                 {getStepContent(activeStep)}

@@ -22,7 +22,7 @@ const EncabezadoForm = ({
 
   const handleConcepts = (event) => {
     const concept = concepts.find(
-      (e) => e.codigoConcepto == event.target.value
+      (e) => e.codigoConcepto === event.target.value
     );
     setHeader({
       ...header,
@@ -127,7 +127,7 @@ const EncabezadoForm = ({
             value={header.client.currency}
             onChange={(event) => {
               const currency = currencies.find(
-                (o) => o.value == event.target.value
+                (o) => o.value === event.target.value
               );
               setHeader({
                 ...header,

@@ -7,6 +7,10 @@ const columns = [
   { id: "nombre", label: "Nombre" },
 ];
 
+function financial(x) {
+  return Number.parseFloat(x).toFixed(2);
+}
+
 const ListProductsDialog = ({
   handleClose,
   open,
@@ -20,7 +24,7 @@ const ListProductsDialog = ({
       codigo: row.codigo,
       nombre: row.nombre,
       precios: row.precios === null ? [] : row.precios,
-      precio: "",
+      precio: row.precios === null ? financial(0.0) : "",
     });
 
     handleClose();

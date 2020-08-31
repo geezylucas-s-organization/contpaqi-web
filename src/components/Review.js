@@ -73,9 +73,7 @@ const Review = ({ cabecera, movimientos }) => {
           <Typography variant="subtitle1" className={classes.total}>
             {movimientos.length > 0 &&
               financial(
-                movimientos
-                  .map((o) => parseFloat(o.unidades))
-                  .reduce(reducerTotal)
+                movimientos.map((o) => o.unidades).reduce(reducerTotal)
               )}
           </Typography>
         </ListItem>
@@ -86,9 +84,7 @@ const Review = ({ cabecera, movimientos }) => {
             $
             {movimientos.length > 0 &&
               financial(
-                movimientos
-                  .map((o) => parseFloat(o.total))
-                  .reduce(reducerTotal) / 1.16
+                movimientos.map((o) => o.total).reduce(reducerTotal) / 1.16
               )}
           </Typography>
         </ListItem>
@@ -98,9 +94,8 @@ const Review = ({ cabecera, movimientos }) => {
             $
             {movimientos.length > 0 &&
               financial(
-                movimientos
-                  .map((o) => parseFloat(o.total))
-                  .reduce(reducerTotal) * 0.16
+                (movimientos.map((o) => o.total).reduce(reducerTotal) / 1.16) *
+                  0.16
               )}
           </Typography>
         </ListItem>
@@ -109,9 +104,7 @@ const Review = ({ cabecera, movimientos }) => {
           <Typography variant="subtitle1" className={classes.total}>
             $
             {movimientos.length > 0 &&
-              financial(
-                movimientos.map((o) => parseFloat(o.total)).reduce(reducerTotal)
-              )}
+              financial(movimientos.map((o) => o.total).reduce(reducerTotal))}
           </Typography>
         </ListItem>
       </List>
