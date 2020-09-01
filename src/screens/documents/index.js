@@ -19,6 +19,8 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
+import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
+import PDFDialog from "./PDFDialog";
 
 const columns = [
   { id: "fecha", label: "Fecha" },
@@ -43,6 +45,7 @@ const Documents = () => {
   const [action, setAction] = useState({ action: "last", refresh: true });
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [openPDF, setOpenPDF] = useState({ open: false, id: 0 });
 
   useEffect(() => {
     const dataAsync = async () => {
@@ -125,6 +128,7 @@ const Documents = () => {
                             {column.label}
                           </TableCell>
                         ))}
+                        <TableCell>PDF</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -141,6 +145,13 @@ const Documents = () => {
                                 </TableCell>
                               );
                             })}
+                            <TableCell
+                              onClick={() =>
+                                setOpenPDF({ open: true, id: row.folio })
+                              }
+                            >
+                              <PictureAsPdfIcon />
+                            </TableCell>
                           </TableRow>
                         );
                       })}
@@ -161,6 +172,11 @@ const Documents = () => {
           </Grid>
         </Grid>
       </Box>
+      <PDFDialog
+        open={openPDF.open}
+        handleClose={() => setOpenPDF({ ...openPDF, open: false })}
+        id={openPDF.id}
+      />
     </Container>
   );
 };
