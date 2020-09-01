@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -8,57 +9,23 @@ import {
   Typography,
   Box,
   Paper,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TablePagination,
 } from "@material-ui/core";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
-import { TableGeneral } from "../../components";
 
 const columns = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
-  {
-    id: "population",
-    label: "Population",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toFixed(2),
-  },
-];
-
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
+  { id: "nombreConcepto", label: "Concepto" },
+  { id: "folio", label: "Folio", minWidth: 100, align: "right" },
+  { id: "serie", label: "Serie", minWidth: 50 },
+  { id: "razonSocialCliente", label: "Razón social" },
+  { id: "total", label: "Total", align: "right" },
+  { id: "pendiente", label: "Pendiente", align: "right" },
 ];
 
 const useStyles = makeStyles({
@@ -69,18 +36,42 @@ const useStyles = makeStyles({
 
 const Documents = () => {
   const classes = useStyles();
-  const [concept, setConcept] = useState(5);
+  const [rows, setRows] = useState([]);
+  const [action, setAction] = useState("last");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const concepts = [
-    {
-      value: 5,
-      label: "Facturas al Contado",
-    },
-    {
-      value: 6,
-      label: "Facturas Crédito",
-    },
-  ];
+  useEffect(() => {
+    const dataAsync = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5007/api/Documento/GetDocumentos?action=${action}&numberOfDocs=${rowsPerPage}`
+        );
+        setRows(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    dataAsync();
+  }, [action, rowsPerPage]);
+
+  const handleChangePage = (event, newPage) => {
+    if (newPage === 0) {
+      setAction("last");
+    } else if (newPage > page) {
+      setAction("prev");
+    } else if (newPage < page) {
+      setAction("next");
+    }
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setAction("last");
+    setPage(0);
+  };
 
   return (
     <Container maxWidth="lg">
@@ -111,7 +102,50 @@ const Documents = () => {
           </Grid>
           <Grid item lg={12} md={12} sm={12}>
             <Paper className={classes.root}>
-              <TableGeneral rows={rows} columns={columns} />
+              <TableContainer>
+                <Table stickyHeader aria-label="sticky table">
+                  <TableHead>
+                    <TableRow>
+                      {columns.map((column) => (
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          style={{ minWidth: column.minWidth }}
+                        >
+                          {column.label}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows.map((row, i) => {
+                      return (
+                        <TableRow hover tabIndex={-1} key={i}>
+                          {columns.map((column) => {
+                            const value = row[column.id];
+                            return (
+                              <TableCell key={column.id} align={column.align}>
+                                {column.format && typeof value === "number"
+                                  ? column.format(value)
+                                  : value}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[10, 25]}
+                component="div"
+                count={-1}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+              />
             </Paper>
           </Grid>
         </Grid>
