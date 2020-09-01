@@ -16,13 +16,15 @@ import {
   TableCell,
   TableBody,
   TablePagination,
+  CircularProgress,
 } from "@material-ui/core";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
 
 const columns = [
+  { id: "fecha", label: "Fecha" },
   { id: "nombreConcepto", label: "Concepto" },
-  { id: "folio", label: "Folio", minWidth: 100, align: "right" },
-  { id: "serie", label: "Serie", minWidth: 50 },
+  { id: "folio", label: "Folio", minWidth: 30, align: "right" },
+  { id: "serie", label: "Serie", minWidth: 30 },
   { id: "razonSocialCliente", label: "Razón social" },
   { id: "total", label: "Total", align: "right" },
   { id: "pendiente", label: "Pendiente", align: "right" },
@@ -36,18 +38,21 @@ const useStyles = makeStyles({
 
 const Documents = () => {
   const classes = useStyles();
+  const [loading, setLoading] = useState(true);
   const [rows, setRows] = useState([]);
-  const [action, setAction] = useState("last");
+  const [action, setAction] = useState({ action: "last", refresh: true });
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     const dataAsync = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:5007/api/Documento/GetDocumentos?action=${action}&numberOfDocs=${rowsPerPage}`
+          `http://localhost:5007/api/Documento/GetDocumentos?action=${action.action}&numberOfDocs=${rowsPerPage}`
         );
         setRows(response.data.data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -58,11 +63,11 @@ const Documents = () => {
 
   const handleChangePage = (event, newPage) => {
     if (newPage === 0) {
-      setAction("last");
+      setAction({ action: "last", refresh: !action.refresh });
     } else if (newPage > page) {
-      setAction("prev");
+      setAction({ action: "prev", refresh: !action.refresh });
     } else if (newPage < page) {
-      setAction("next");
+      setAction({ action: "next", refresh: !action.refresh });
     }
     setPage(newPage);
   };
@@ -101,52 +106,58 @@ const Documents = () => {
             </Button>
           </Grid>
           <Grid item lg={12} md={12} sm={12}>
-            <Paper className={classes.root}>
-              <TableContainer>
-                <Table stickyHeader aria-label="sticky table">
-                  <TableHead>
-                    <TableRow>
-                      {columns.map((column) => (
-                        <TableCell
-                          key={column.id}
-                          align={column.align}
-                          style={{ minWidth: column.minWidth }}
-                        >
-                          {column.label}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map((row, i) => {
-                      return (
-                        <TableRow hover tabIndex={-1} key={i}>
-                          {columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell key={column.id} align={column.align}>
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
-                                  : value}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[10, 25]}
-                component="div"
-                count={-1}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-              />
-            </Paper>
+            {loading ? (
+              <Grid container justify="center">
+                <CircularProgress />
+              </Grid>
+            ) : (
+              <Paper className={classes.root}>
+                <TableContainer>
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        {columns.map((column) => (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            style={{ minWidth: column.minWidth }}
+                          >
+                            {column.label}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {rows.map((row, i) => {
+                        return (
+                          <TableRow hover tabIndex={-1} key={i}>
+                            {columns.map((column) => {
+                              const value = row[column.id];
+                              return (
+                                <TableCell key={column.id} align={column.align}>
+                                  {column.format && typeof value === "number"
+                                    ? column.format(value)
+                                    : value}
+                                </TableCell>
+                              );
+                            })}
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25]}
+                  component="div"
+                  count={-1}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onChangePage={handleChangePage}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
+              </Paper>
+            )}
           </Grid>
         </Grid>
       </Box>

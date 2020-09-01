@@ -6,6 +6,10 @@ import ListClientsDialog from "./ListClientsDialog";
 import ListProductsDialog from "./ListProductsDialog";
 import Copyright from "./Copyright";
 import TableGeneral from "./TableGeneral";
+import Title from "./Title";
+import Chart from "./Chart";
+import Deposits from "./Deposits";
+import DocsHome from "./DocsHome";
 
 export {
   AddMovimientoDialog,
@@ -15,5 +19,9 @@ export {
   ListClientsDialog,
   ListProductsDialog,
   Copyright,
-  TableGeneral
+  TableGeneral,
+  Title,
+  Chart,
+  Deposits,
+  DocsHome,
 };
