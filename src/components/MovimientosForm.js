@@ -23,20 +23,14 @@ import AddIcon from "@material-ui/icons/Add";
 import { AddMovimientoDialog } from ".";
 
 const headCells = [
-  {
-    id: "id",
-    disablePadding: true,
-    label: "#",
-  },
-  {
-    id: "codigo",
-    disablePadding: false,
-    label: "Código",
-  },
+  { id: "id", disablePadding: true, label: "#" },
+  { id: "codigo", disablePadding: false, label: "Código" },
   { id: "nombre", disablePadding: false, label: "Nombre" },
   { id: "cantidad", disablePadding: false, label: "Cantidad" },
   { id: "unidad", disablePadding: false, label: "Unidad" },
   { id: "precio", disablePadding: false, label: "Precio" },
+  { id: "iva", disablePadding: false, label: "I.V.A" },
+  { id: "subtotal", disablePadding: false, label: "Subtotal" },
   { id: "total", disablePadding: false, label: "Total" },
 ];
 
@@ -245,6 +239,8 @@ const MovimientosForm = ({ rows, setRows, productsServices }) => {
                           <TableCell>{row.cantidad}</TableCell>
                           <TableCell>{row.unidad}</TableCell>
                           <TableCell>{row.precio}</TableCell>
+                          <TableCell>{row.iva}</TableCell>
+                          <TableCell>{row.subtotal}</TableCell>
                           <TableCell>{row.total}</TableCell>
                         </TableRow>
                       );

@@ -34,6 +34,7 @@ const AddMovimientoDialog = ({
     unidad: "(N)",
     precio: financial(0.0),
     precios: [],
+    subtotal: financial(0.0),
     total: financial(0.0),
     iva: financial(0.0),
   });
@@ -47,14 +48,25 @@ const AddMovimientoDialog = ({
       unidad: "(N)",
       precio: financial(0.0),
       precios: [],
+      subtotal: financial(0.0),
       total: financial(0.0),
       iva: financial(0.0),
     });
   }, [open]);
 
+  const handlePrecio = (event) => {
+    setMovement({
+      ...movement,
+      precio: event.target.value,
+      subtotal: financial(event.target.value * movement.cantidad),
+      iva: financial(event.target.value * movement.cantidad * 0.16),
+      total: financial(event.target.value * movement.cantidad * 1.16),
+    });
+  };
+
   const SearchProduct = () => (
     <Tooltip title="Buscar producto o servicio">
-      <IconButton onClick={() => setOpenDialog(true)}>
+      <IconButton onClick={() => setOpenDialog(true)} size="small">
         <SearchIcon />
       </IconButton>
     </Tooltip>
@@ -66,12 +78,12 @@ const AddMovimientoDialog = ({
         open={open}
         aria-labelledby="form-dialog-title"
         fullWidth={true}
-        maxWidth="sm"
+        maxWidth="md"
       >
         <DialogTitle id="form-dialog-title">Agregar movimiento</DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 required
                 id="producto"
@@ -107,7 +119,8 @@ const AddMovimientoDialog = ({
                   setMovement({
                     ...movement,
                     cantidad: event.target.value,
-                    iva: event.target.value * movement.precio * 0.16,
+                    subtotal: financial(event.target.value * movement.precio),
+                    iva: financial(event.target.value * movement.precio * 0.16),
                     total: financial(
                       event.target.value * movement.precio * 1.16
                     ),
@@ -127,16 +140,7 @@ const AddMovimientoDialog = ({
                   fullWidth
                   value={movement.precio}
                   helperText="Por favor selecciona un elemento"
-                  onChange={(event) =>
-                    setMovement({
-                      ...movement,
-                      precio: event.target.value,
-                      iva: event.target.value * movement.cantidad * 0.16,
-                      total: financial(
-                        event.target.value * movement.cantidad * 1.16
-                      ),
-                    })
-                  }
+                  onChange={(event) => handlePrecio(event)}
                 >
                   {movement.precios.map((e) => (
                     <MenuItem key={e} value={e}>
@@ -156,16 +160,7 @@ const AddMovimientoDialog = ({
                   }}
                   fullWidth
                   value={movement.precio}
-                  onChange={(event) =>
-                    setMovement({
-                      ...movement,
-                      precio: event.target.value,
-                      iva: event.target.value * movement.cantidad * 0.16,
-                      total: financial(
-                        event.target.value * movement.cantidad * 1.16
-                      ),
-                    })
-                  }
+                  onChange={(event) => handlePrecio(event)}
                 />
               )}
             </Grid>
@@ -187,6 +182,16 @@ const AddMovimientoDialog = ({
                 label="I.V.A."
                 fullWidth
                 value={movement.iva}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                disabled
+                id="subtotal"
+                name="subtotal"
+                label="Subtotal"
+                fullWidth
+                value={movement.subtotal}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
