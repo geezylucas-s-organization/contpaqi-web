@@ -214,7 +214,7 @@ const CreateDocument = ({
             {activeStep === steps.length ? (
               sendingData ? (
                 <Grid container justify="center">
-                  <CircularProgress size={60} />
+                  <CircularProgress size={50} />
                 </Grid>
               ) : (
                 <React.Fragment>
