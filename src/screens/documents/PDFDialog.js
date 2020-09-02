@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogTitle } from "@material-ui/core";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-export default function PDFDialog({ open, handleClose, id }) {
+const PDFDialog = ({ open, handleClose, id }) => {
   const pdf = `./docs/${id}.pdf`;
 
   return (
@@ -28,4 +28,6 @@ export default function PDFDialog({ open, handleClose, id }) {
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default PDFDialog;

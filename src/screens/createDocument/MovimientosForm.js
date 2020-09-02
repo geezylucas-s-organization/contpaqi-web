@@ -14,13 +14,12 @@ import {
   Typography,
   Paper,
   Checkbox,
-  IconButton,
-  Tooltip,
   Grid,
+  Button,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
-import { AddMovimientoDialog } from ".";
+import AddMovimientoDialog from "./AddMovimientoDialog";
 
 const headCells = [
   { id: "id", disablePadding: true, label: "#" },
@@ -113,17 +112,23 @@ const EnhancedTableToolbar = ({ numSelected, handleOpen, deleteRows }) => {
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Eliminar movimientos">
-          <IconButton aria-label="delete" onClick={deleteRows}>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
+        <Button
+          variant="contained"
+          color="secondary"
+          startIcon={<DeleteIcon />}
+          onClick={deleteRows}
+        >
+          Eliminar
+        </Button>
       ) : (
-        <Tooltip title="Agregar movimientos">
-          <IconButton aria-label="add" onClick={handleOpen}>
-            <AddIcon />
-          </IconButton>
-        </Tooltip>
+        <Button
+          variant="contained"
+          color="default"
+          startIcon={<AddIcon />}
+          onClick={handleOpen}
+        >
+          Agregar
+        </Button>
       )}
     </Toolbar>
   );

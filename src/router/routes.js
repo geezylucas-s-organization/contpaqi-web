@@ -1,5 +1,6 @@
 import HomeIcon from "@material-ui/icons/Home";
 import ListIcon from "@material-ui/icons/List";
+import CreateIcon from "@material-ui/icons/Create";
 import { Home, Documents, CreateDocument } from "../screens";
 
 export const RoutesExact = [
@@ -10,16 +11,21 @@ export const RoutesExact = [
     icon: HomeIcon,
   },
   {
+    path: "/createdocument",
+    sidebarName: "Crear documento",
+    component: CreateDocument,
+    icon: CreateIcon,
+  },
+  {
     path: "/documents",
     sidebarName: "Documentos",
     component: Documents,
     icon: ListIcon,
   },
-];
-
-export const Routes = [
   {
-    path: "/documents/create",
-    component: CreateDocument,
+    path: "/payments",
+    sidebarName: "Pagos",
+    component: null,
+    icon: ListIcon,
   },
 ];

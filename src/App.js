@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import NavBar from "./router/NavBar";
-import { Routes, RoutesExact } from "./router/routes";
+import { RoutesExact } from "./router/routes";
 import { Copyright } from "./components";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,11 +27,6 @@ const App = () => {
         <Switch>
           {RoutesExact.map((route) => (
             <Route path={route.path} key={route.path} exact>
-              <route.component />
-            </Route>
-          ))}
-          {Routes.map((route) => (
-            <Route path={route.path} key={route.path}>
               <route.component />
             </Route>
           ))}

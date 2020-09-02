@@ -14,7 +14,9 @@ import {
   CircularProgress,
   Grid,
 } from "@material-ui/core";
-import { EncabezadoForm, MovimientosForm, Review } from "../../components";
+import EncabezadoForm from "./EncabezadoForm";
+import MovimientosForm from "./MovimientosForm";
+import Review from "./Review";
 import {
   addCabecera,
   addMovements,
@@ -72,7 +74,6 @@ const CreateDocument = ({
 }) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
-
   const [header, setHeader] = useState({
     date: moment(Date.now()).format("YYYY-MM-DD"),
     folio: "",
@@ -87,7 +88,6 @@ const CreateDocument = ({
     concept: "",
     nomConcept: "",
   });
-
   const [movements, setMovements] = useState([]);
   const [sendingData, setSendingData] = useState(true);
 
@@ -119,7 +119,7 @@ const CreateDocument = ({
   }
 
   useEffect(() => {
-    fetchPropsDoc();
+    //fetchPropsDoc();
   }, [fetchPropsDoc]);
 
   useEffect(() => {

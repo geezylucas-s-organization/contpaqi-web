@@ -1,5 +1,5 @@
 import React from "react";
-import theme from "../theme";
+import theme from "../../theme";
 import {
   LineChart,
   Line,
@@ -8,7 +8,7 @@ import {
   Label,
   ResponsiveContainer,
 } from "recharts";
-import { Title } from ".";
+import { Title } from "../../components";
 
 // Generate Sales Data
 function createData(time, amount) {

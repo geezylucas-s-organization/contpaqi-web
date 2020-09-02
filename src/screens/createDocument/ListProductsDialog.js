@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
-import { TableGeneral } from ".";
+import { TableGeneral } from "../../components";
 
 const columns = [
   { id: "codigo", label: "Código" },

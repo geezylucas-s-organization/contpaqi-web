@@ -9,7 +9,7 @@ import {
   InputAdornment,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import { ListClientsDialog } from ".";
+import ListClientsDialog from "./ListClientsDialog";
 
 const EncabezadoForm = ({
   header,

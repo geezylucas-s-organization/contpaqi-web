@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { v4 as uuidv4 } from "uuid";
-import { ListProductsDialog } from ".";
+import ListProductsDialog from "./ListProductsDialog";
 
 function financial(x) {
   return Number.parseFloat(x).toFixed(2);
