@@ -22,6 +22,7 @@ import {
   addMovements,
   fetchPropsDoc,
 } from "../../store/documentSlice";
+import { financial } from "../../utils";
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -59,10 +60,6 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ["Encabezado", "Movimientos", "Revisar"];
 
-function financial(x) {
-  return Number.parseFloat(x).toFixed(2);
-}
-
 const CreateDocument = ({
   addCabecera,
   addMovements,
@@ -74,6 +71,8 @@ const CreateDocument = ({
 }) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
+  const [movements, setMovements] = useState([]);
+  const [sendingData, setSendingData] = useState(true);
   const [header, setHeader] = useState({
     date: moment(Date.now()).format("YYYY-MM-DD"),
     folio: "",
@@ -88,8 +87,6 @@ const CreateDocument = ({
     concept: "",
     nomConcept: "",
   });
-  const [movements, setMovements] = useState([]);
-  const [sendingData, setSendingData] = useState(true);
 
   function getStepContent(step) {
     switch (step) {
@@ -134,6 +131,7 @@ const CreateDocument = ({
             },
           }
         );
+
         setSendingData(false);
       } catch (error) {
         console.log(error);
@@ -188,6 +186,7 @@ const CreateDocument = ({
             unidades: o.unidades,
           })),
         };
+
         sendDataAsync(data);
         break;
       default:

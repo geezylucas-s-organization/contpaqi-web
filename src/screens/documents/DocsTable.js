@@ -40,6 +40,7 @@ const DocsTable = () => {
         const response = await axios.get(
           `http://localhost:5007/api/Documento/GetDocumentos?action=${action.action}&numberOfDocs=${rowsPerPage}`
         );
+
         setRows(response.data.data);
         setLoading(false);
       } catch (error) {

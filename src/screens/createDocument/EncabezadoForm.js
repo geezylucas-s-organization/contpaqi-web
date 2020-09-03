@@ -24,6 +24,7 @@ const EncabezadoForm = ({
     const concept = concepts.find(
       (e) => e.codigoConcepto === event.target.value
     );
+
     setHeader({
       ...header,
       nomConcept: concept.nombreConcepto,

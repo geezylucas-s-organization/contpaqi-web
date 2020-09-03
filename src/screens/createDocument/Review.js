@@ -8,6 +8,7 @@ import {
   List,
   Typography,
 } from "@material-ui/core";
+import { financial } from "../../utils";
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -20,10 +21,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
-
-function financial(x) {
-  return Number.parseFloat(x).toFixed(2);
-}
 
 const reducerTotal = (accumulator, currentValue) => accumulator + currentValue;
 

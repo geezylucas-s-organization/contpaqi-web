@@ -150,6 +150,7 @@ const MovimientosForm = ({ rows, setRows, productsServices }) => {
       setSelected(newSelecteds);
       return;
     }
+
     setSelected([]);
   };
 

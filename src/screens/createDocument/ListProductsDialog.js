@@ -1,15 +1,12 @@
 import React from "react";
 import { Grid, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
 import { TableGeneral } from "../../components";
+import { financial } from "../../utils";
 
 const columns = [
   { id: "codigo", label: "Código" },
   { id: "nombre", label: "Nombre" },
 ];
-
-function financial(x) {
-  return Number.parseFloat(x).toFixed(2);
-}
 
 const ListProductsDialog = ({
   handleClose,

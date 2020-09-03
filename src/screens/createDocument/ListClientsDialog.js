@@ -18,6 +18,7 @@ const ListClientsDialog = ({
 }) => {
   const clickRow = (row) => {
     const currency = currencies.find((o) => o.value === row.moneda);
+
     setHeader({
       ...header,
       client: {
