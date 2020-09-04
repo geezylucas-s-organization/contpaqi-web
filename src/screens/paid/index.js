@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Container, Typography, Box, Paper } from "@material-ui/core";
 import Chart from "./Chart";
-import PaymentsTable from "./PaymentsTable";
+import PaidTable from "./PaidTable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Payments = () => {
+const Paid = () => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -28,7 +28,7 @@ const Payments = () => {
     <Container maxWidth="lg">
       <Box my={4}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Pagos
+          Documentos pagados
         </Typography>
         <Grid container spacing={3}>
           {/* Chart */}
@@ -40,7 +40,7 @@ const Payments = () => {
           {/* Recent Orders */}
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <PaymentsTable />
+              <PaidTable />
             </Paper>
           </Grid>
         </Grid>
@@ -49,4 +49,4 @@ const Payments = () => {
   );
 };
 
-export default Payments;
+export default Paid;

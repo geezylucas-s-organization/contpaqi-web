@@ -38,7 +38,7 @@ const ListProductsDialog = ({
       <DialogTitle id="form-dialog-title">
         Lista de productos o servicios
       </DialogTitle>
-      <DialogContent dividers>
+      <DialogContent>
         <Grid container spacing={3}>
           <Grid item md={12} sm={12}>
             <TableGeneral

@@ -1,6 +1,6 @@
 import Home from "./home";
 import Documents from "./documents";
 import CreateDocument from "./createDocument";
-import Payments from "./payments";
+import Paid from "./paid";
 
-export { Home, Documents, CreateDocument, Payments };
+export { Home, Documents, CreateDocument, Paid };

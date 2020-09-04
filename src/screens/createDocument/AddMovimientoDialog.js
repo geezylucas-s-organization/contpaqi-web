@@ -78,7 +78,7 @@ const AddMovimientoDialog = ({
         maxWidth="md"
       >
         <DialogTitle id="form-dialog-title">Agregar movimiento</DialogTitle>
-        <DialogContent dividers>
+        <DialogContent>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <TextField

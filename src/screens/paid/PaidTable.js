@@ -23,7 +23,7 @@ const columns = [
   { id: "pendiente", label: "Pendiente", align: "right" },
 ];
 
-const PaymentsTable = () => {
+const PaidTable = () => {
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = useState([]);
   const [action, setAction] = useState({ action: "last", refresh: true });
@@ -67,7 +67,7 @@ const PaymentsTable = () => {
 
   return (
     <React.Fragment>
-      <Title>Lista de pagos</Title>
+      <Title>Lista de documentos pagados</Title>
       {!loading ? (
         <Grid container justify="center">
           <CircularProgress />
@@ -124,4 +124,4 @@ const PaymentsTable = () => {
   );
 };
 
-export default PaymentsTable;
+export default PaidTable;

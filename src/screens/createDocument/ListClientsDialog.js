@@ -42,7 +42,7 @@ const ListClientsDialog = ({
       maxWidth="md"
     >
       <DialogTitle id="form-dialog-title">Lista de clientes</DialogTitle>
-      <DialogContent dividers>
+      <DialogContent>
         <Grid container spacing={3}>
           <Grid item md={12} sm={12}>
             <TableGeneral
