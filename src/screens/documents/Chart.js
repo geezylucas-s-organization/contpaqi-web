@@ -1,5 +1,6 @@
 import React from "react";
 import theme from "../../theme";
+import { Typography } from "@material-ui/core";
 import {
   LineChart,
   Line,
@@ -8,7 +9,6 @@ import {
   Label,
   ResponsiveContainer,
 } from "recharts";
-import { Title } from "../../components";
 
 // Generate Sales Data
 function createData(time, amount) {
@@ -30,7 +30,9 @@ const data = [
 export default function Chart() {
   return (
     <React.Fragment>
-      <Title>Mes</Title>
+      <Typography variant="h6" gutterBottom>
+        Resumen
+      </Typography>
       <ResponsiveContainer>
         <LineChart
           data={data}

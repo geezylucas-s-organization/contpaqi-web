@@ -10,8 +10,8 @@ import {
   TablePagination,
   CircularProgress,
   Grid,
+  Typography,
 } from "@material-ui/core";
-import { Title } from "../../components";
 import PictureAsPdfIcon from "@material-ui/icons/PictureAsPdf";
 import PDFDialog from "./PDFDialog";
 
@@ -70,7 +70,9 @@ const DocsTable = () => {
 
   return (
     <React.Fragment>
-      <Title>Lista de documentos</Title>
+      <Typography variant="h6" gutterBottom>
+        Lista de documentos
+      </Typography>
       {!loading ? (
         <Grid container justify="center">
           <CircularProgress />

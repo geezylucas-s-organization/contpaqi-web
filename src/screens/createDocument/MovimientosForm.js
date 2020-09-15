@@ -20,7 +20,6 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import AddMovimientoDialog from "./AddMovimientoDialog";
-import { Title } from "../../components";
 
 const headCells = [
   { id: "id", disablePadding: true, label: "#" },
@@ -193,7 +192,9 @@ const MovimientosForm = ({ rows, setRows, productsServices }) => {
 
   return (
     <React.Fragment>
-      <Title>Agrega o quita los movimientos deseados</Title>
+      <Typography variant="h6" gutterBottom>
+        Agrega o quita los movimientos deseados
+      </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper>

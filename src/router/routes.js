@@ -1,7 +1,13 @@
 import HomeIcon from "@material-ui/icons/Home";
 import ListIcon from "@material-ui/icons/List";
 import CreateIcon from "@material-ui/icons/Create";
-import { Home, Documents, CreateDocument } from "../screens";
+import {
+  Home,
+  Documents,
+  CreateDocument,
+  CreateClient,
+  CreateProduct,
+} from "../screens";
 
 export const RoutesExact = [
   {
@@ -25,13 +31,13 @@ export const RoutesExact = [
   {
     path: "/createproduct",
     sidebarName: "Crear producto",
-    component: null,
+    component: CreateProduct,
     icon: CreateIcon,
   },
   {
     path: "/createclient",
     sidebarName: "Crear cliente",
-    component: null,
+    component: CreateClient,
     icon: CreateIcon,
   },
   {

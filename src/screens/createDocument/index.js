@@ -10,7 +10,6 @@ import {
   StepLabel,
   Button,
   Typography,
-  Container,
   CircularProgress,
   Grid,
 } from "@material-ui/core";
@@ -196,7 +195,7 @@ const CreateDocument = ({
   }, [activeStep]);
 
   return (
-    <Container maxWidth="lg">
+    <React.Fragment>
       <div className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
@@ -251,7 +250,7 @@ const CreateDocument = ({
           </React.Fragment>
         </Paper>
       </div>
-    </Container>
+    </React.Fragment>
   );
 };
 
