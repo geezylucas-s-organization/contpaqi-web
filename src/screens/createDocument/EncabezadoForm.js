@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Grid,
-  Typography,
   TextField,
   MenuItem,
   Tooltip,
@@ -10,6 +9,7 @@ import {
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import ListClientsDialog from "./ListClientsDialog";
+import { Title } from "../../components";
 
 const EncabezadoForm = ({
   header,
@@ -43,9 +43,7 @@ const EncabezadoForm = ({
 
   return (
     <React.Fragment>
-      <Typography variant="h5" gutterBottom>
-        Encabezado
-      </Typography>
+      <Title>Encabezado</Title>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField

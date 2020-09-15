@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { financial } from "../../utils";
+import { Title } from "../../components";
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -29,9 +30,7 @@ const Review = ({ cabecera, movimientos }) => {
 
   return (
     <React.Fragment>
-      <Typography variant="h5" gutterBottom>
-        Revisar documento
-      </Typography>
+      <Title>Revisar documento</Title>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="h6" gutterBottom className={classes.title}>

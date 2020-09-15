@@ -1,8 +1,7 @@
 import HomeIcon from "@material-ui/icons/Home";
 import ListIcon from "@material-ui/icons/List";
 import CreateIcon from "@material-ui/icons/Create";
-import PaymentIcon from "@material-ui/icons/Payment";
-import { Home, Documents, CreateDocument, Paid } from "../screens";
+import { Home, Documents, CreateDocument } from "../screens";
 
 export const RoutesExact = [
   {
@@ -19,14 +18,26 @@ export const RoutesExact = [
   },
   {
     path: "/documents",
-    sidebarName: "Documentos sin pago",
+    sidebarName: "Listado de facturas",
     component: Documents,
     icon: ListIcon,
   },
   {
-    path: "/paid",
-    sidebarName: "Documentos pagados",
-    component: Paid,
-    icon: PaymentIcon,
+    path: "/createproduct",
+    sidebarName: "Crear producto",
+    component: null,
+    icon: CreateIcon,
+  },
+  {
+    path: "/createclient",
+    sidebarName: "Crear cliente",
+    component: null,
+    icon: CreateIcon,
+  },
+  {
+    path: "/templates",
+    sidebarName: "Administrar facturas automáticas",
+    component: null,
+    icon: ListIcon,
   },
 ];
