@@ -12,7 +12,7 @@ export const RoutesExact = [
   },
   {
     path: "/createdocument",
-    sidebarName: "Crear documento",
+    sidebarName: "Crear factura",
     component: CreateDocument,
     icon: CreateIcon,
   },
