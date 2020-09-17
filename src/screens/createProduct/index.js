@@ -32,11 +32,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paper: {
-    marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
     [theme.breakpoints.up(900 + theme.spacing(3) * 2)]: {
-      marginTop: theme.spacing(4),
       marginBottom: theme.spacing(4),
       padding: theme.spacing(3),
     },
@@ -66,18 +64,18 @@ const typeProduct = [
   },
 ];
 
+const AddPrice = () => (
+  <Tooltip title="Buscar cliente">
+    <IconButton type="submit">
+      <AddIcon />
+    </IconButton>
+  </Tooltip>
+);
+
 const CreateProduct = () => {
   const classes = useStyles();
   const [price, setPrice] = useState(0);
   const [prices, setPrices] = useState([]);
-
-  const AddPrice = () => (
-    <Tooltip title="Buscar cliente">
-      <IconButton size="small" type="submit">
-        <AddIcon />
-      </IconButton>
-    </Tooltip>
-  );
 
   return (
     <React.Fragment>

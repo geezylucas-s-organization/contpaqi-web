@@ -1,15 +1,17 @@
 import React from "react";
-import { Typography, Link } from "@material-ui/core";
+import { Typography, Link, Box } from "@material-ui/core";
 
 const Copyright = () => (
-  <Typography variant="body2" color="textSecondary" align="center">
-    {"Copyright © "}
-    <Link color="inherit" href="https://material-ui.com/">
-      Your Company
-    </Link>{" "}
-    {new Date().getFullYear()}
-    {"."}
-  </Typography>
+  <Box marginTop={4}>
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <Link color="inherit" href="https://material-ui.com/">
+        Your Company
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  </Box>
 );
 
 export default Copyright;

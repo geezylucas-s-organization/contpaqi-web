@@ -35,11 +35,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paper: {
-    marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
     [theme.breakpoints.up(900 + theme.spacing(3) * 2)]: {
-      marginTop: theme.spacing(4),
       marginBottom: theme.spacing(4),
       padding: theme.spacing(3),
     },
@@ -87,7 +85,7 @@ const CreateDocument = ({
     nomConcept: "",
   });
 
-  function getStepContent(step) {
+  const getStepContent = (step) => {
     switch (step) {
       case 0:
         return (
@@ -112,7 +110,7 @@ const CreateDocument = ({
       default:
         throw new Error("Unknown step");
     }
-  }
+  };
 
   useEffect(() => {
     //fetchPropsDoc();
