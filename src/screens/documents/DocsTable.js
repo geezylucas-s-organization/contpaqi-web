@@ -48,7 +48,7 @@ const DocsTable = () => {
       }
     };
 
-    //dataAsync();
+    dataAsync();
   }, [action, rowsPerPage]);
 
   const handleChangePage = (event, newPage) => {
@@ -73,7 +73,7 @@ const DocsTable = () => {
       <Typography variant="h6" gutterBottom>
         Lista de documentos
       </Typography>
-      {!loading ? (
+      {loading ? (
         <Grid container justify="center">
           <CircularProgress />
         </Grid>

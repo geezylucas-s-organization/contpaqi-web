@@ -3,27 +3,26 @@ import { Grid } from "@material-ui/core";
 import { Header, FeaturedPost } from "../../components";
 
 const mainFeaturedPost = {
-  title: "Title of a longer featured blog post",
-  description:
-    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
+  title: "Empresa sin nombre",
+  description: "Eslógan de la empresa ",
   image: "https://source.unsplash.com/random",
   imgText: "main image description",
 };
 
 const featuredPosts = [
   {
-    title: "Featured post",
+    title: "Nueva función",
     date: "Nov 12",
     description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
+      "Con las plantillas puedes crear una factura automáticamente, desde Crear factura y activando la opción de Guardar como plantilla.",
     image: "https://source.unsplash.com/random",
     imageText: "Image Text",
   },
   {
-    title: "Post title",
+    title: "Consejo",
     date: "Nov 11",
     description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
+      "Si requieres enviar una factura a tu cliente o proveedor, puedes hacerlo desde Listado de documentos.",
     image: "https://source.unsplash.com/random",
     imageText: "Image Text",
   },

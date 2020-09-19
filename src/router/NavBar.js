@@ -43,7 +43,7 @@ const NavBar = ({ location }) => {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" noWrap>
-            Contpaq web
+            PROSIS
           </Typography>
         </Toolbar>
       </AppBar>
