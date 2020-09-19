@@ -90,7 +90,7 @@ const CreateClient = ({ currencies }) => {
     setOpen(false);
   };
 
-  const createClient = async (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
 
@@ -148,7 +148,7 @@ const CreateClient = ({ currencies }) => {
               <CircularProgress size={50} />
             </Grid>
           ) : (
-            <form onSubmit={createClient}>
+            <form onSubmit={onSubmit}>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                   <TextField

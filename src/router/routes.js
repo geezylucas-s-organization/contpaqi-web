@@ -1,12 +1,14 @@
 import HomeIcon from "@material-ui/icons/Home";
 import ListIcon from "@material-ui/icons/List";
 import CreateIcon from "@material-ui/icons/Create";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 import {
   Home,
   Documents,
   CreateDocument,
   CreateClient,
   CreateProduct,
+  ManageTemplates,
 } from "../screens";
 
 export const RoutesExact = [
@@ -41,9 +43,9 @@ export const RoutesExact = [
     icon: CreateIcon,
   },
   {
-    path: "/templates",
+    path: "/managetemplates",
     sidebarName: "Administrar facturas automáticas",
-    component: null,
-    icon: ListIcon,
+    component: ManageTemplates,
+    icon: AssignmentIcon,
   },
 ];

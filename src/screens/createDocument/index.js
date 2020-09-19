@@ -119,16 +119,11 @@ const CreateDocument = ({
   useEffect(() => {
     const sendDataAsync = async (data) => {
       try {
-        await axios.post(
-          "http://localhost:5007/api/Documento/CreateDocumento",
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
+        await axios.post("http://localhost:5007/api/Documento/", data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         setSendingData(false);
       } catch (error) {
         console.log(error);
@@ -140,7 +135,7 @@ const CreateDocument = ({
         addCabecera({
           numMoneda: header.client.currency,
           nomMoneda: header.client.nomCurrency,
-          tipoCambio: Number.parseFloat(header.exchangeRate).toFixed(4),
+          tipoCambio: parseInt(header.exchangeRate, 10),
           codConcepto: header.concept,
           nomConcepto: header.nomConcept,
           codigoCteProv: header.client.code,

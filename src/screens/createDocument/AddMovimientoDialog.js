@@ -87,7 +87,11 @@ const AddMovimientoDialog = ({
                 name="producto"
                 label="Producto"
                 fullWidth
-                value={`${movement.codigo} ${movement.nombre}`}
+                value={
+                  movement.codigo !== ""
+                    ? `${movement.codigo} ${movement.nombre}`
+                    : ""
+                }
                 InputProps={{ endAdornment: <SearchProduct /> }}
               />
             </Grid>

@@ -1,1 +1,1 @@
-export const financial = (x) => Number.parseFloat(x).toFixed(2);
+export const financial = (x) => parseFloat(x).toFixed(2);
