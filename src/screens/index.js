@@ -4,6 +4,7 @@ import CreateDocument from "./createDocument";
 import CreateClient from "./createClient";
 import CreateProduct from "./createProduct";
 import ManageTemplates from "./manageTemplates";
+import SignIn from "./signin";
 
 export {
   Home,
@@ -12,4 +13,5 @@ export {
   CreateClient,
   CreateProduct,
   ManageTemplates,
+  SignIn,
 };

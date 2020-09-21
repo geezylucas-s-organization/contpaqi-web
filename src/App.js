@@ -1,10 +1,11 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { useState } from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import NavBar from "./router/NavBar";
-import { RoutesExact } from "./router/routes";
+import { RoutesPrivate } from "./router/routes";
 import { Copyright } from "./components";
+import { SignIn } from "./screens";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,22 +18,64 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const App = () => {
+  const storedJwt = localStorage.getItem("token");
+  const [access, setAccess] = useState(storedJwt || null);
   const classes = useStyles();
+
+  const PrivateRoute = ({ component, ...rest }) => (
+    <Route
+      {...rest}
+      render={(props) =>
+        access !== null ? (
+          <Route {...props} component={component} />
+        ) : (
+          <Redirect to="/signin" />
+        )
+      }
+    />
+  );
+
+  const Layout = (props) => (
+    <React.Fragment>
+      <NavBar setAccess={setAccess} />
+      <main className={classes.content}>
+        <Toolbar />
+        {props.children}
+        <Copyright />
+      </main>
+    </React.Fragment>
+  );
 
   return (
     <div className={classes.root}>
-      <NavBar />
-      <main className={classes.content}>
-        <Toolbar />
-        <Switch>
-          {RoutesExact.map((route) => (
-            <Route path={route.path} key={route.path} exact>
-              <route.component />
-            </Route>
-          ))}
-        </Switch>
-        <Copyright />
-      </main>
+      <Switch>
+        <Route
+          path="/signin"
+          render={(props) =>
+            access === null ? (
+              <Route {...props}>
+                <SignIn setAccess={setAccess} />
+              </Route>
+            ) : (
+              <Redirect to="/" />
+            )
+          }
+        />
+        <Route>
+          <Layout>
+            <Switch>
+              {RoutesPrivate.map((route) => (
+                <PrivateRoute
+                  key={route.path}
+                  component={route.component}
+                  path={route.path}
+                  exact={route.exact}
+                />
+              ))}
+            </Switch>
+          </Layout>
+        </Route>
+      </Switch>
     </div>
   );
 };

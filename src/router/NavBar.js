@@ -10,8 +10,9 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Button,
 } from "@material-ui/core";
-import { RoutesExact } from "./routes";
+import { RoutesPrivate } from "./routes";
 
 const drawerWidth = 240;
 
@@ -29,22 +30,33 @@ const useStyles = makeStyles((theme) => ({
   drawerContainer: {
     overflow: "auto",
   },
+  title: {
+    flexGrow: 1,
+  },
 }));
 
-const NavBar = ({ location }) => {
+const NavBar = ({ location, setAccess }) => {
   const classes = useStyles();
 
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? true : false;
   };
 
+  const signOut = () => {
+    localStorage.removeItem("token");
+    setAccess(null);
+  };
+
   return (
     <React.Fragment>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" className={classes.title}>
             PROSIS - Contpaqi Web
           </Typography>
+          <Button color="inherit" onClick={signOut}>
+            Cerrar sesión
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -57,7 +69,7 @@ const NavBar = ({ location }) => {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {RoutesExact.map((route) => (
+            {RoutesPrivate.map((route) => (
               <ListItem
                 button
                 component={Link}
