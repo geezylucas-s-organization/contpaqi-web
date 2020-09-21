@@ -22,7 +22,6 @@ const columns = [
   { id: "serie", label: "Serie", minWidth: 30 },
   { id: "razonSocialCliente", label: "Razón social" },
   { id: "total", label: "Total", align: "right" },
-  { id: "pendiente", label: "Pendiente", align: "right" },
 ];
 
 const DocsTable = () => {
@@ -48,7 +47,7 @@ const DocsTable = () => {
       }
     };
 
-    //dataAsync();
+    dataAsync();
   }, [action, rowsPerPage]);
 
   const handleChangePage = (event, newPage) => {

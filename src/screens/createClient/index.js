@@ -277,12 +277,11 @@ const CreateClient = ({ currencies }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          Se agregó correctamente.
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">Alerta</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Se creo correctamente el cliente.
+            Se agregó correctamente el cliente al catálogo de clientes y
+            proveedores.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

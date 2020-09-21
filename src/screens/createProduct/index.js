@@ -335,12 +335,11 @@ const CreateProduct = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          Se agregó correctamente.
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">Alerta</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Se creo correctamente el cliente.
+            Se agregó correctamente el producto al catálogo de productos o
+            servicios.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
