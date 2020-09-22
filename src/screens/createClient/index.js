@@ -70,21 +70,11 @@ const CreateClient = ({ currencies }) => {
     dateNow: moment(Date.now()).format("YYYY-MM-DD"),
     rfc: "",
     curp: "",
-    nameCurrency: "",
     currency: "",
     typeClient: "",
   });
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-
-  const handleCurrency = (event) => {
-    const currency = currencies.find((ele) => ele.value === event.target.value);
-    setForm({
-      ...form,
-      nameCurrency: currency.label,
-      currency: currency.value,
-    });
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -103,7 +93,7 @@ const CreateClient = ({ currencies }) => {
           cFechaAlta: moment(form.dateNow).format("MM/DD/YYYY"),
           cRFC: form.rfc,
           cCURP: form.curp,
-          cNombreMoneda: form.nameCurrency,
+          cNombreMoneda: form.currency,
           cTipoCliente: form.type,
           cEstatus: 1,
         },
@@ -226,7 +216,9 @@ const CreateClient = ({ currencies }) => {
                     fullWidth
                     helperText="Por favor selecciona un elemento"
                     value={form.currency}
-                    onChange={(event) => handleCurrency(event)}
+                    onChange={(event) =>
+                      setForm({ ...form, currency: event.target.value })
+                    }
                   >
                     {currencies.map((option) => (
                       <MenuItem key={option.value} value={option.value}>

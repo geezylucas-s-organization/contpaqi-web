@@ -35,7 +35,7 @@ const documentSlice = createSlice({
         },
         {
           value: 2,
-          label: "Dólar Mexicano",
+          label: "Dólar Americano",
         },
       ],
     },
