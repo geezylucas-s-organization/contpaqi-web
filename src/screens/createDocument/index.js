@@ -84,6 +84,7 @@ const CreateDocument = ({
     concept: "",
     nomConcept: "",
   });
+  const [template, setTemplate] = useState(false);
 
   const getStepContent = (step) => {
     switch (step) {
@@ -106,14 +107,21 @@ const CreateDocument = ({
           />
         );
       case 2:
-        return <Review cabecera={cabecera} movimientos={movimientos} />;
+        return (
+          <Review
+            cabecera={cabecera}
+            movimientos={movimientos}
+            template={template}
+            setTemplate={setTemplate}
+          />
+        );
       default:
         throw new Error("Unknown step");
     }
   };
 
   useEffect(() => {
-    fetchPropsDoc();
+    //fetchPropsDoc();
   }, [fetchPropsDoc]);
 
   useEffect(() => {
@@ -157,6 +165,7 @@ const CreateDocument = ({
         );
         break;
       case 3:
+        // TODO: add template state
         const data = {
           cabecera: {
             numMoneda: cabecera.numMoneda,
@@ -215,6 +224,12 @@ const CreateDocument = ({
                   <Typography variant="subtitle1">
                     Documento creado y timbrado con éxito.
                   </Typography>
+                  {template && (
+                    <Typography variant="subtitle1">
+                      Vaya a la pestaña de "Adminitrar facturas automáticas"
+                      para terminar de configurar su nueva plantilla.
+                    </Typography>
+                  )}
                 </React.Fragment>
               )
             ) : (

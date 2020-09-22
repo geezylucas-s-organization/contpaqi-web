@@ -7,6 +7,8 @@ import {
   ListItem,
   List,
   Typography,
+  FormControlLabel,
+  Checkbox,
 } from "@material-ui/core";
 import { financial } from "../../utils";
 
@@ -24,7 +26,14 @@ const useStyles = makeStyles((theme) => ({
 
 const reducerTotal = (accumulator, currentValue) => accumulator + currentValue;
 
-const Review = ({ cabecera, movimientos }) => {
+const Review = ({
+  cabecera,
+  movimientos,
+  template,
+  setTemplate,
+  open,
+  handleClose,
+}) => {
   const classes = useStyles();
 
   return (
@@ -112,6 +121,18 @@ const Review = ({ cabecera, movimientos }) => {
           </Typography>
         </ListItem>
       </List>
+      <Divider />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={template}
+            onChange={(event) => setTemplate(event.target.checked)}
+            name="template"
+            color="primary"
+          />
+        }
+        label="¿Desea guardar este documento como una plantilla para su facturación automáticamente?"
+      />
     </React.Fragment>
   );
 };

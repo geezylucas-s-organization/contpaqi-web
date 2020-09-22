@@ -47,7 +47,7 @@ const DocsTable = () => {
       }
     };
 
-    dataAsync();
+    //dataAsync();
   }, [action, rowsPerPage]);
 
   const handleChangePage = (event, newPage) => {
