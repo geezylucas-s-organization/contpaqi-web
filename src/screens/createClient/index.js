@@ -80,6 +80,12 @@ const CreateClient = ({ currencies }) => {
     setOpen(false);
   };
 
+  const handleInputs = (event) => {
+    const { name, value } = event.target;
+
+    setForm({ ...form, [name]: value });
+  };
+
   const onSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -142,8 +148,8 @@ const CreateClient = ({ currencies }) => {
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    id="fecha"
-                    name="fecha"
+                    id="dateNow"
+                    name="dateNow"
                     label="Fecha"
                     type="date"
                     fullWidth
@@ -156,29 +162,25 @@ const CreateClient = ({ currencies }) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    id="codigocliente"
-                    name="codigocliente"
+                    id="codeClient"
+                    name="codeClient"
                     label="Código cliente"
                     required
                     fullWidth
                     helperText="Debe ser únicio"
                     value={form.codeClient}
-                    onChange={(event) =>
-                      setForm({ ...form, codeClient: event.target.value })
-                    }
+                    onChange={handleInputs}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
-                    id="razonsocial"
-                    name="razonsocial"
+                    id="businessName"
+                    name="businessName"
                     label="Razón social"
                     required
                     fullWidth
                     value={form.businessName}
-                    onChange={(event) =>
-                      setForm({ ...form, businessName: event.target.value })
-                    }
+                    onChange={handleInputs}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -189,9 +191,7 @@ const CreateClient = ({ currencies }) => {
                     label="RFC"
                     fullWidth
                     value={form.rfc}
-                    onChange={(event) =>
-                      setForm({ ...form, rfc: event.target.value })
-                    }
+                    onChange={handleInputs}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -201,24 +201,20 @@ const CreateClient = ({ currencies }) => {
                     label="CURP"
                     fullWidth
                     value={form.curp}
-                    onChange={(event) =>
-                      setForm({ ...form, curp: event.target.value })
-                    }
+                    onChange={handleInputs}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
                     select
-                    id="moneda"
-                    name="moneda"
+                    id="currency"
+                    name="currency"
                     label="Moneda"
                     fullWidth
                     helperText="Por favor selecciona un elemento"
                     value={form.currency}
-                    onChange={(event) =>
-                      setForm({ ...form, currency: event.target.value })
-                    }
+                    onChange={handleInputs}
                   >
                     {currencies.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
@@ -231,15 +227,13 @@ const CreateClient = ({ currencies }) => {
                   <TextField
                     required
                     select
-                    id="tipocliente"
-                    name="tipocliente"
+                    id="typeClient"
+                    name="typeClient"
                     label="Tipo cliente"
                     fullWidth
                     helperText="Por favor selecciona un elemento"
                     value={form.typeClient}
-                    onChange={(event) =>
-                      setForm({ ...form, typeClient: event.target.value })
-                    }
+                    onChange={handleInputs}
                   >
                     {typeClient.map((option) => (
                       <MenuItem key={option.value} value={option.value}>

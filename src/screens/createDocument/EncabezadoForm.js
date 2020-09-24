@@ -33,6 +33,23 @@ const EncabezadoForm = ({
     });
   };
 
+  const handleCurrency = (event) => {
+    const currency = currencies.find((o) => o.value === event.target.value);
+    setHeader({
+      ...header,
+      client: {
+        currency: currency.value,
+        nomCurrency: currency.label,
+      },
+    });
+  };
+
+  const handleInputs = (event) => {
+    const { name, value } = event.target;
+
+    setHeader({ ...header, [name]: value });
+  };
+
   const SearchClient = () => (
     <Tooltip title="Buscar cliente">
       <IconButton onClick={() => setOpenDialog(true)} size="small">
@@ -51,13 +68,13 @@ const EncabezadoForm = ({
           <TextField
             required
             select
-            id="concepto"
-            name="concepto"
+            id="concept"
+            name="concept"
             label="Concepto"
             fullWidth
             value={header.concept}
             helperText="Por favor selecciona un elemento"
-            onChange={(event) => handleConcepts(event)}
+            onChange={handleConcepts}
           >
             {concepts.map((option) => (
               <MenuItem
@@ -81,15 +98,13 @@ const EncabezadoForm = ({
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            id="fecha"
-            name="fecha"
+            id="date"
+            name="date"
             label="Fecha"
             type="date"
             fullWidth
             defaultValue={header.date}
-            onChange={(event) =>
-              setHeader({ ...header, date: event.target.value })
-            }
+            onChange={handleInputs}
             InputLabelProps={{
               shrink: true,
             }}
@@ -98,8 +113,8 @@ const EncabezadoForm = ({
         <Grid item xs={12} sm={6}>
           <TextField
             required
-            id="cliente"
-            name="cliente"
+            id="client"
+            name="client"
             label="Cliente"
             fullWidth
             value={
@@ -121,23 +136,12 @@ const EncabezadoForm = ({
           <TextField
             required
             select
-            id="moneda"
-            name="moneda"
+            id="currency"
+            name="currency"
             label="Moneda"
             fullWidth
             value={header.client.currency}
-            onChange={(event) => {
-              const currency = currencies.find(
-                (o) => o.value === event.target.value
-              );
-              setHeader({
-                ...header,
-                client: {
-                  currency: currency.value,
-                  nomCurrency: currency.label,
-                },
-              });
-            }}
+            onChange={handleCurrency}
             helperText="Por favor selecciona un elemento"
           >
             {currencies.map((option) => (
@@ -149,8 +153,8 @@ const EncabezadoForm = ({
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            id="tipoDeCambio"
-            name="tipoDeCambio"
+            id="exchangeRate"
+            name="exchangeRate"
             label="Tipo de cambio"
             type="number"
             InputLabelProps={{
@@ -158,9 +162,7 @@ const EncabezadoForm = ({
             }}
             fullWidth
             value={header.exchangeRate}
-            onChange={(event) =>
-              setHeader({ ...header, exchangeRate: event.target.value })
-            }
+            onChange={handleInputs}
           />
         </Grid>
       </Grid>

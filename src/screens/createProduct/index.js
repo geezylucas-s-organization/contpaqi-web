@@ -99,6 +99,12 @@ const CreateProduct = () => {
     setOpen(false);
   };
 
+  const handleInputs = (event) => {
+    const { name, value } = event.target;
+
+    setForm({ ...form, [name]: value });
+  };
+
   const onSubmit = async () => {
     setLoading(true);
 
@@ -165,8 +171,8 @@ const CreateProduct = () => {
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    id="fecha"
-                    name="fecha"
+                    id="dateNow"
+                    name="dateNow"
                     label="Fecha"
                     type="date"
                     fullWidth
@@ -179,29 +185,25 @@ const CreateProduct = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    id="codigoproducto"
-                    name="codigoproducto"
+                    id="codeProduct"
+                    name="codeProduct"
                     label="Código producto"
                     required
                     fullWidth
                     helperText="Debe ser únicio"
                     value={form.codeProduct}
-                    onChange={(event) =>
-                      setForm({ ...form, codeProduct: event.target.value })
-                    }
+                    onChange={handleInputs}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    id="nombreproducto"
-                    name="nombreproducto"
+                    id="nameProduct"
+                    name="nameProduct"
                     label="Nombre producto"
                     required
                     fullWidth
                     value={form.nameProduct}
-                    onChange={(event) =>
-                      setForm({ ...form, nameProduct: event.target.value })
-                    }
+                    onChange={handleInputs}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -214,9 +216,7 @@ const CreateProduct = () => {
                     fullWidth
                     helperText="Por favor selecciona un elemento"
                     value={form.typeProduct}
-                    onChange={(event) =>
-                      setForm({ ...form, typeProduct: event.target.value })
-                    }
+                    onChange={handleInputs}
                   >
                     {typeProduct.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
@@ -227,27 +227,24 @@ const CreateProduct = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    id="descripcion"
+                    id="description"
+                    name="description"
                     label="Descriptión"
                     multiline
                     fullWidth
                     value={form.description}
-                    onChange={(event) =>
-                      setForm({ ...form, description: event.target.value })
-                    }
+                    onChange={handleInputs}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    id="clavesat"
-                    name="clavesat"
+                    id="claveSat"
+                    name="claveSat"
                     label="Clave SAT"
                     required
                     fullWidth
                     value={form.claveSat}
-                    onChange={(event) =>
-                      setForm({ ...form, claveSat: event.target.value })
-                    }
+                    onChange={handleInputs}
                   />
                 </Grid>
               </Grid>
@@ -267,9 +264,9 @@ const CreateProduct = () => {
                       }}
                     >
                       <TextField
-                        id="precios"
-                        name="precios"
-                        label="Precios"
+                        id="price"
+                        name="price"
+                        label="Precio"
                         type="number"
                         value={price}
                         onChange={(event) => setPrice(event.target.value)}
@@ -281,7 +278,7 @@ const CreateProduct = () => {
                             </InputAdornment>
                           ),
                         }}
-                        helperText="Por favor agregar un elemento"
+                        helperText="Por favor agregar un elemento si desea que el producto tenga precios por defecto"
                       />
                     </form>
                     <List>

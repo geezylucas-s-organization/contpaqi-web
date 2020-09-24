@@ -51,7 +51,7 @@ const AddMovimientoDialog = ({
     });
   }, [open]);
 
-  const handlePrecio = (event) => {
+  const handlePrice = (event) => {
     setMovement({
       ...movement,
       precio: event.target.value,
@@ -141,7 +141,7 @@ const AddMovimientoDialog = ({
                   fullWidth
                   value={movement.precio}
                   helperText="Por favor selecciona un elemento"
-                  onChange={(event) => handlePrecio(event)}
+                  onChange={handlePrice}
                 >
                   {movement.precios.map((e) => (
                     <MenuItem key={e} value={e}>
@@ -161,7 +161,7 @@ const AddMovimientoDialog = ({
                   }}
                   fullWidth
                   value={movement.precio}
-                  onChange={(event) => handlePrecio(event)}
+                  onChange={handlePrice}
                 />
               )}
             </Grid>
@@ -213,8 +213,8 @@ const AddMovimientoDialog = ({
           </Button>
           <Button
             onClick={() => {
-              handleClose();
               setRows((prevArray) => [...prevArray, movement]);
+              handleClose();
             }}
             color="primary"
           >
