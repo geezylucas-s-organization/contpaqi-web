@@ -20,7 +20,7 @@ const columns = [
   { id: "total", label: "Total", align: "right" },
 ];
 
-const ManageTemplates = () => {
+const Clients = () => {
   const [rows, setRows] = useState([]);
   const [action, setAction] = useState({ action: "last", refresh: true });
   const [page, setPage] = useState(0);
@@ -45,7 +45,7 @@ const ManageTemplates = () => {
 
   return (
     <Typography variant="h4" component="h1" gutterBottom>
-      Administrar plantillas para facturación automática
+      Lista de clientes, clientes - proveedores y proveedores
       <Paper>
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">
@@ -96,4 +96,4 @@ const ManageTemplates = () => {
   );
 };
 
-export default ManageTemplates;
+export default Clients;

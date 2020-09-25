@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { connect } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -17,16 +18,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const App = () => {
-  const storedJwt = localStorage.getItem("token");
-  const [access, setAccess] = useState(storedJwt || null);
+const App = ({ token }) => {
   const classes = useStyles();
 
   const PrivateRoute = ({ component, ...rest }) => (
     <Route
       {...rest}
       render={(props) =>
-        access !== null ? (
+        token !== null ? (
           <Route {...props} component={component} />
         ) : (
           <Redirect to="/signin" />
@@ -37,7 +36,7 @@ const App = () => {
 
   const Layout = (props) => (
     <React.Fragment>
-      <NavBar setAccess={setAccess} />
+      <NavBar />
       <main className={classes.content}>
         <Toolbar />
         {props.children}
@@ -52,9 +51,9 @@ const App = () => {
         <Route
           path="/signin"
           render={(props) =>
-            access === null ? (
+            token === null ? (
               <Route {...props}>
-                <SignIn setAccess={setAccess} />
+                <SignIn />
               </Route>
             ) : (
               <Redirect to="/" />
@@ -80,4 +79,8 @@ const App = () => {
   );
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  token: state.user.token,
+});
+
+export default connect(mapStateToProps, {})(App);

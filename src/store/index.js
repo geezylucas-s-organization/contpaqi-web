@@ -1,11 +1,20 @@
-import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./counterSlice";
-import documentReducer from "./documentSlice";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import {
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import rootReducer from "./rootReducer";
 
 export default configureStore({
-  reducer: {
-    counter: counterReducer,
-    document: documentReducer,
-  },
+  reducer: rootReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
   devTools: true,
 });

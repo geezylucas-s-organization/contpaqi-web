@@ -16,54 +16,37 @@ export const fetchPropsDoc = createAsyncThunk(
   }
 );
 
+export const initialState = {
+  cabecera: {
+    numMoneda: 0,
+    tipoCambio: "",
+    codConcepto: "",
+    codigoCteProv: "",
+    fecha: "",
+  },
+  movimientos: [],
+  extra: {
+    currencies: [
+      {
+        value: 1,
+        label: "Peso Mexicano",
+      },
+      {
+        value: 2,
+        label: "Dólar Americano",
+      },
+    ],
+  },
+  extraAPI: {
+    productosYServicios: [],
+    clientesYProveedores: [],
+    conceptos: [],
+  },
+};
+
 const documentSlice = createSlice({
   name: "document",
-  initialState: {
-    cabecera: {
-      numMoneda: 0,
-      tipoCambio: "",
-      codConcepto: "",
-      codigoCteProv: "",
-      fecha: "",
-    },
-    movimientos: [],
-    extra: {
-      currencies: [
-        {
-          value: 1,
-          label: "Peso Mexicano",
-        },
-        {
-          value: 2,
-          label: "Dólar Americano",
-        },
-      ],
-    },
-    extraAPI: {
-      productosYServicios: [
-        {
-          codigo: "PROD1",
-          nombre: "alimento para mascotas",
-          precios: null,
-        },
-      ],
-      clientesYProveedores: [
-        {
-          codigo: "PROV1",
-          razonSocial: "prosis copilco sa de cv",
-          rfc: "PRO010609AAA",
-          moneda: 1,
-        },
-      ],
-      conceptos: [
-        {
-          codigoConcepto: 5,
-          nombreConcepto: "Factura al Contado",
-          noFolio: 54,
-        },
-      ],
-    },
-  },
+  initialState,
   reducers: {
     addCabecera: (state, action) => {
       state.cabecera = action.payload;

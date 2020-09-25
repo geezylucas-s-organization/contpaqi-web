@@ -9,6 +9,8 @@ import {
   CreateClient,
   CreateProduct,
   ManageTemplates,
+  Clients,
+  Products,
 } from "../screens";
 
 export const RoutesPrivate = [
@@ -41,10 +43,24 @@ export const RoutesPrivate = [
     exact: false,
   },
   {
+    path: "/products",
+    sidebarName: "Listado de productos",
+    component: Products,
+    icon: ListIcon,
+    exact: false,
+  },
+  {
     path: "/createclient",
     sidebarName: "Crear cliente",
     component: CreateClient,
     icon: CreateIcon,
+    exact: false,
+  },
+  {
+    path: "/clients",
+    sidebarName: "Listado de clientes",
+    component: Clients,
+    icon: ListIcon,
     exact: false,
   },
   {

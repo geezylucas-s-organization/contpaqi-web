@@ -38,6 +38,7 @@ const EncabezadoForm = ({
     setHeader({
       ...header,
       client: {
+        ...header.client,
         currency: currency.value,
         nomCurrency: currency.label,
       },

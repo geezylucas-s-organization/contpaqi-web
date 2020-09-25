@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Avatar,
@@ -13,6 +13,7 @@ import {
   Paper,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { setToken } from "../../store/userSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,15 +44,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = ({ setAccess }) => {
+const SignIn = ({ setToken }) => {
   const classes = useStyles();
-  const history = useHistory();
   const [form, setForm] = useState({ email: "", password: "" });
 
   const onSubmit = () => {
-    localStorage.setItem("token", "ey");
-    setAccess("ey");
-    history.push("/");
+    setToken("ey");
   };
 
   const handleInputs = (event) => {
@@ -124,4 +122,6 @@ const SignIn = ({ setAccess }) => {
   );
 };
 
-export default SignIn;
+const mapDispatchToProps = { setToken };
+
+export default connect(null, mapDispatchToProps)(SignIn);

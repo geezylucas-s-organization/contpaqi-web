@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -13,6 +14,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { RoutesPrivate } from "./routes";
+import { logout } from "../store/rootReducer";
 
 const drawerWidth = 240;
 
@@ -35,16 +37,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NavBar = ({ location, setAccess }) => {
+const NavBar = ({ location, logout }) => {
   const classes = useStyles();
 
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? true : false;
-  };
-
-  const signOut = () => {
-    localStorage.removeItem("token");
-    setAccess(null);
   };
 
   return (
@@ -54,7 +51,7 @@ const NavBar = ({ location, setAccess }) => {
           <Typography variant="h6" className={classes.title}>
             PROSIS - Contpaqi Web
           </Typography>
-          <Button color="inherit" onClick={signOut}>
+          <Button color="inherit" onClick={logout}>
             Cerrar sesión
           </Button>
         </Toolbar>
@@ -90,4 +87,6 @@ const NavBar = ({ location, setAccess }) => {
   );
 };
 
-export default withRouter(NavBar);
+const mapDispatchToProps = { logout };
+
+export default withRouter(connect(null, mapDispatchToProps)(NavBar));

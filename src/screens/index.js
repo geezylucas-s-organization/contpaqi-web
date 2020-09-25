@@ -5,6 +5,8 @@ import CreateClient from "./createClient";
 import CreateProduct from "./createProduct";
 import ManageTemplates from "./manageTemplates";
 import SignIn from "./signin";
+import Clients from "./clients";
+import Products from "./products";
 
 export {
   Home,
@@ -14,4 +16,6 @@ export {
   CreateProduct,
   ManageTemplates,
   SignIn,
+  Clients,
+  Products,
 };

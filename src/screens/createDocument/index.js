@@ -85,6 +85,7 @@ const CreateDocument = ({
     nomConcept: "",
   });
   const [template, setTemplate] = useState(false);
+  const [stamp, setStamp] = useState(true);
 
   const getStepContent = (step) => {
     switch (step) {
@@ -113,6 +114,8 @@ const CreateDocument = ({
             movimientos={movimientos}
             template={template}
             setTemplate={setTemplate}
+            stamp={stamp}
+            setStamp={setStamp}
           />
         );
       default:

@@ -33,6 +33,8 @@ const Review = ({
   setTemplate,
   open,
   handleClose,
+  stamp,
+  setStamp,
 }) => {
   const classes = useStyles();
 
@@ -122,6 +124,17 @@ const Review = ({
         </ListItem>
       </List>
       <Divider />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={stamp}
+            onChange={(event) => setStamp(event.target.checked)}
+            name="stamp"
+            color="primary"
+          />
+        }
+        label="¿Timbrar el documento?"
+      />
       <FormControlLabel
         control={
           <Checkbox
