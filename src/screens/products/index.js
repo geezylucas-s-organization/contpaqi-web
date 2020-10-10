@@ -45,7 +45,7 @@ const Products = () => {
 
   return (
     <Typography variant="h4" component="h1" gutterBottom>
-      Lista de productos, paquete y servicio
+      Lista de productos, paquetes y servicios
       <Paper>
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">

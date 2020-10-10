@@ -1,1 +1,3 @@
-export const financial = (x) => parseFloat(x).toFixed(2);
+export function financial(x) {
+  return parseFloat(x).toFixed(2);
+}
