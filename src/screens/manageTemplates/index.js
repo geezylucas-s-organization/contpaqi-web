@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Typography,
   Paper,
@@ -12,35 +13,41 @@ import {
 } from "@material-ui/core";
 
 const columns = [
-  { id: "fecha", label: "Fecha" },
-  { id: "nombreConcepto", label: "Concepto" },
-  { id: "folio", label: "Folio", minWidth: 30, align: "right" },
-  { id: "serie", label: "Serie", minWidth: 30 },
-  { id: "razonSocialCliente", label: "Razón social" },
-  { id: "total", label: "Total", align: "right" },
+  { id: "ClienteProveedor", label: "Cliente" },
+  { id: "Descripcion", label: "Descripcion" },
+  { id: "ProximaFactura", label: "Proxima factura" },
+  { id: "UltimaVezFacturada", label: "Ultima vez facturado" },
+  { id: "Estatus", label: "Estatus" },
 ];
 
 const ManageTemplates = () => {
   const [rows, setRows] = useState([]);
-  const [action, setAction] = useState({ action: "last", refresh: true });
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  useEffect(() => {
+    const dataAsync = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5007/api/Plantillas/?Page=${page}&Size=${rowsPerPage}`
+        );
+
+        setRows(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    dataAsync();
+  }, [page, rowsPerPage]);
+
   const handleChangePage = (event, newPage) => {
-    if (newPage === 0) {
-      setAction({ action: "last", refresh: !action.refresh });
-    } else if (newPage > page) {
-      setAction({ action: "prev", refresh: !action.refresh });
-    } else if (newPage < page) {
-      setAction({ action: "next", refresh: !action.refresh });
-    }
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
-    setAction("last");
-    setPage(0);
+    setPage(1);
   };
 
   return (
@@ -63,9 +70,9 @@ const ManageTemplates = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, i) => {
+              {rows.map((row) => {
                 return (
-                  <TableRow hover tabIndex={-1} key={i}>
+                  <TableRow hover tabIndex={-1} key={row.Documentoid}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
