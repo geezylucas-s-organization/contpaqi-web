@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 import axios from "axios";
@@ -67,6 +67,7 @@ const CreateDocument = ({
   movimientos,
 }) => {
   const classes = useStyles();
+
   const [activeStep, setActiveStep] = useState(0);
   const [movements, setMovements] = useState([]);
   const [sendingData, setSendingData] = useState(true);
@@ -84,8 +85,10 @@ const CreateDocument = ({
     concept: "",
     nomConcept: "",
   });
+
   const [template, setTemplate] = useState(false);
   const [stamp, setStamp] = useState(true);
+  const isMountedRef = useRef(true);
 
   const getStepContent = (step) => {
     switch (step) {
@@ -124,7 +127,9 @@ const CreateDocument = ({
   };
 
   useEffect(() => {
-    fetchPropsDoc();
+    if (isMountedRef.current) {
+      fetchPropsDoc();
+    }
   }, [fetchPropsDoc]);
 
   useEffect(() => {
@@ -198,6 +203,11 @@ const CreateDocument = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeStep]);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => (isMountedRef.current = false);
+  }, []);
 
   return (
     <React.Fragment>

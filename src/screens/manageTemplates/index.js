@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   Typography,
   Paper,
@@ -10,20 +11,28 @@ import {
   TableCell,
   TableBody,
   TablePagination,
+  IconButton,
+  Tooltip,
+  Button,
+  Grid,
 } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
+import SettingsIcon from "@material-ui/icons/Settings";
+import AddIcon from "@material-ui/icons/Add";
+import DialogConfig from "./DialogConfig";
 
 const columns = [
   { id: "ClienteProveedor", label: "Cliente" },
   { id: "Descripcion", label: "Descripcion" },
   { id: "ProximaFactura", label: "Proxima factura" },
   { id: "UltimaVezFacturada", label: "Ultima vez facturado" },
-  { id: "Estatus", label: "Estatus" },
 ];
 
 const ManageTemplates = () => {
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [config, setConfig] = useState({ open: false, idDocument: 0 });
 
   useEffect(() => {
     const dataAsync = async () => {
@@ -50,9 +59,50 @@ const ManageTemplates = () => {
     setPage(1);
   };
 
+  const editIcon = (
+    <Tooltip title="Editar configuración">
+      <IconButton>
+        <EditIcon color="primary" />
+      </IconButton>
+    </Tooltip>
+  );
+
+  const settingsIcon = (id) => (
+    <Tooltip title="Terminar de configurar">
+      <IconButton
+        onClick={() => {
+          setConfig({ open: true, idDocument: id });
+        }}
+      >
+        <SettingsIcon color="primary" />
+      </IconButton>
+    </Tooltip>
+  );
   return (
-    <Typography variant="h4" component="h1" gutterBottom>
-      Administrar plantillas para facturación automática
+    <React.Fragment>
+      <Grid
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="baseline"
+      >
+        <Grid item>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Administrar plantillas para facturación automática
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Button
+            startIcon={<AddIcon />}
+            component={Link}
+            to="/createdocument"
+            variant="contained"
+            color="primary"
+          >
+            Crear plantilla
+          </Button>
+        </Grid>
+      </Grid>
       <Paper>
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">
@@ -67,6 +117,7 @@ const ManageTemplates = () => {
                     {column.label}
                   </TableCell>
                 ))}
+                <TableCell>Acciones</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -77,12 +128,15 @@ const ManageTemplates = () => {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
+                          {value}
                         </TableCell>
                       );
                     })}
+                    {row.Estatus ? (
+                      <TableCell>{editIcon}</TableCell>
+                    ) : (
+                      <TableCell>{settingsIcon(row.Documentoid)}</TableCell>
+                    )}
                   </TableRow>
                 );
               })}
@@ -99,7 +153,12 @@ const ManageTemplates = () => {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-    </Typography>
+      <DialogConfig
+        open={config.open}
+        handleClose={() => setConfig({ open: false, idDocument: 0 })}
+        idDocument={config.idDocument}
+      />
+    </React.Fragment>
   );
 };
 
